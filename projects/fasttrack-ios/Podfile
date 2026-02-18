@@ -1,0 +1,27 @@
+platform :ios, '15.0'
+
+target 'FastTrack' do
+  # Firebase
+  pod 'Firebase/Core'
+  pod 'Firebase/Auth'
+  pod 'Firebase/Database'
+  
+  # Optional: Superwall (Phase 3)
+  # pod 'SuperwallKit'
+  
+  # Optional: PDF Generation (Phase 2)
+  # pod 'PDFKit'
+  
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    flutter_additional_ios_build_settings(target)
+    target.build_configurations.each do |config|
+      config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= [
+        '$(inherited)',
+        'FIREBASE_CRASHLYTICS_ENABLED=YES'
+      ]
+    end
+  end
+end

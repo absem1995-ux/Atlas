@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "skills": {
+    "qmd": {
+      "version": "1.0.0",
+      "installedAt": 1771285063334
+    },
+    "larry": {
+      "version": "1.0.0",
+      "installedAt": 1771351644913
+    }
+  }
+}

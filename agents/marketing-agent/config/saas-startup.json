@@ -1,0 +1,175 @@
+{
+  "business": {
+    "name": "AutoScale",
+    "tagline": "The easiest way to scale your SaaS",
+    "audience": "B2B SaaS founders and product managers",
+    "positioning": "We help SaaS companies reduce ops work by 80% so they can focus on building",
+    "website": "https://autoscale.io",
+    "industry": "SaaS / Automation"
+  },
+
+  "platforms": {
+    "tiktok": {
+      "enabled": true,
+      "accountHandle": "@autoscale_io",
+      "accountId": null,
+      "postingSchedule": ["07:30", "16:30", "21:00"],
+      "aspectedRatio": "9:16",
+      "slidesPerPost": 6,
+      "textStyle": "dynamic",
+      "strategy": "larry"
+    },
+    "instagram": {
+      "enabled": true,
+      "accountHandle": "@autoscale_io",
+      "accountId": null,
+      "postingSchedule": ["11:00", "18:00"],
+      "aspectRatio": "9:16",
+      "slidesPerPost": 5,
+      "textStyle": "instagram",
+      "postType": "reel",
+      "strategy": "atlas"
+    },
+    "youtube": {
+      "enabled": false,
+      "accountHandle": "@autoscale_io",
+      "postingSchedule": ["09:00"],
+      "phase": 2
+    },
+    "linkedin": {
+      "enabled": false,
+      "accountHandle": "autoscale-io",
+      "phase": 2
+    }
+  },
+
+  "imageGeneration": {
+    "provider": "openai",
+    "model": "gpt-image-1.5",
+    "quality": "high",
+    "style": "professional",
+    "aspectRatio": "1:1"
+  },
+
+  "postiz": {
+    "enabled": true,
+    "autoSchedule": true,
+    "optimizeTimings": true,
+    "retryFailed": true,
+    "accountId": "YOUR_POSTIZ_ACCOUNT_ID"
+  },
+
+  "content": {
+    "textLength": {
+      "tiktok": {
+        "min": 5,
+        "max": 100
+      },
+      "instagram": {
+        "min": 5,
+        "max": 80
+      }
+    },
+    "ctas": [
+      "Sign up free",
+      "Join our community",
+      "Learn more",
+      "Book a demo"
+    ],
+    "hashtags": {
+      "tiktok": {
+        "count": 3,
+        "research": "auto",
+        "strategy": "trending"
+      },
+      "instagram": {
+        "count": 15,
+        "research": "auto",
+        "strategy": "niche_authority"
+      }
+    },
+    "toneOfVoice": "professional_approachable",
+    "hooks": [
+      {
+        "id": "narrative_001",
+        "category": "narrative",
+        "hook": "We spent 3 months building AutoScale. Then we discovered it saved us $50K/month on ops work.",
+        "context": "Before/after problem solution",
+        "status": "testing"
+      },
+      {
+        "id": "narrative_002",
+        "category": "narrative",
+        "hook": "Your SaaS is growing. But ops is killing you. Here's what we learned...",
+        "context": "Growth problem narrative",
+        "status": "testing"
+      },
+      {
+        "id": "tutorial_001",
+        "category": "tutorial",
+        "hook": "3 automation mistakes SaaS founders make",
+        "context": "How-to, tips, step-by-step",
+        "status": "testing"
+      },
+      {
+        "id": "tutorial_002",
+        "category": "tutorial",
+        "hook": "How to cut ops costs by 50% (in 3 weeks)",
+        "context": "Actionable guide",
+        "status": "testing"
+      },
+      {
+        "id": "showcase_001",
+        "category": "showcase",
+        "hook": "AutoScale helped this founder 10x revenue. Here's how.",
+        "context": "Case study, social proof",
+        "status": "testing"
+      },
+      {
+        "id": "engagement_001",
+        "category": "engagement",
+        "hook": "What's killing your SaaS growth? (Poll in comments)",
+        "context": "Community engagement",
+        "status": "testing"
+      }
+    ]
+  },
+
+  "contentCalendar": {
+    "weekdayFrequency": 3,
+    "weekendFrequency": 1,
+    "peakDays": ["Tuesday", "Thursday"],
+    "avoidDays": []
+  },
+
+  "contentMix": {
+    "narratives": 0.40,
+    "tutorials": 0.30,
+    "showcases": 0.20,
+    "engagement": 0.10
+  },
+
+  "analytics": {
+    "trackHookPerformance": true,
+    "conversionGoal": "sign_up",
+    "reportFrequency": "daily",
+    "performanceThresholds": {
+      "lowEngagementRate": 0.01,
+      "lowConversionRate": 0.002
+    },
+    "platforms": ["tiktok", "instagram"]
+  },
+
+  "revenueTracking": {
+    "enabled": false,
+    "provider": "revenuecat",
+    "trackConversions": true
+  },
+
+  "scheduling": {
+    "postingWindow": "08:00-22:00",
+    "timezoneOffset": "UTC"
+  },
+
+  "enableOptionalSkills": true
+}

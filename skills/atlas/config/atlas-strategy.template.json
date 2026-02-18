@@ -1,0 +1,79 @@
+{
+  "campaign": {
+    "name": "Your Campaign Name",
+    "startDate": "2026-02-18",
+    "theme": "What's the main narrative or theme?",
+    "goals": [
+      "Example: Reach 100K followers",
+      "Example: Drive 1000 sign-ups",
+      "Example: Build community on Discord"
+    ]
+  },
+
+  "hooks": {
+    "narratives": [
+      {
+        "id": "narrative_001",
+        "hook": "FILL ME IN: Start with the problem or the moment people want to see",
+        "pattern": "Problem → Solution → Result",
+        "keywords": ["keyword1", "keyword2", "keyword3"],
+        "category": "before_after",
+        "status": "testing",
+        "notes": "Explain why this hook works for your audience"
+      }
+    ],
+    "tutorials": [
+      {
+        "id": "tutorial_001",
+        "hook": "FILL ME IN: 3 ways to... or How to...",
+        "steps": 3,
+        "keywords": ["keyword1", "keyword2"],
+        "category": "how_to",
+        "status": "testing"
+      }
+    ],
+    "showcases": [
+      {
+        "id": "showcase_001",
+        "hook": "FILL ME IN: Show something impressive about your product/service",
+        "keywords": ["keyword1", "keyword2"],
+        "category": "demo",
+        "status": "testing"
+      }
+    ],
+    "engagement": [
+      {
+        "id": "engagement_001",
+        "hook": "FILL ME IN: Ask a question that gets people talking",
+        "questionType": "open_ended",
+        "category": "poll"
+      }
+    ]
+  },
+
+  "contentCalendar": {
+    "weeklyStructure": {
+      "monday": ["narrative"],
+      "tuesday": ["tutorial", "showcase"],
+      "wednesday": ["narrative"],
+      "thursday": ["tutorial", "engagement"],
+      "friday": ["showcase"],
+      "saturday": ["narrative"],
+      "sunday": ["engagement"]
+    },
+    "postingFrequency": {
+      "tiktok": 3,
+      "instagram": 2,
+      "youtube": 1,
+      "linkedin": 2
+    },
+    "notes": "Adjust based on your platforms and capacity"
+  },
+
+  "performance": {
+    "topPerformers": [],
+    "underperformers": [],
+    "recommendations": [],
+    "lastUpdated": null
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "hooks": [],
+  "rules": {
+    "doubleDown": [],
+    "testing": [],
+    "dropped": []
+  },
+  "notes": "This file is auto-generated. Do not edit manually. It tracks what hooks are working and which aren't."
+}

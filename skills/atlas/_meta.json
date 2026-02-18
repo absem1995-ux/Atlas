@@ -1,0 +1,10 @@
+{
+  "ownerId": "ehi",
+  "slug": "atlas",
+  "version": "0.1.0",
+  "name": "Atlas — Multi-Platform Marketing Automation",
+  "description": "Automate content creation and posting across TikTok, Instagram, YouTube, LinkedIn, Reddit, and Facebook. Generate images, adapt content per platform, schedule posts, track analytics, and optimize hooks based on performance.",
+  "createdAt": 1739891400000,
+  "publishedAt": null,
+  "status": "development"
+}

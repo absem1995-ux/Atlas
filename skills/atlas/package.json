@@ -1,0 +1,49 @@
+{
+  "name": "@atlas/marketing-skill",
+  "version": "0.1.0",
+  "description": "Multi-platform marketing automation skill for OpenClaw. Generate, adapt, schedule, and optimize content across TikTok, Instagram, YouTube, LinkedIn, Reddit, and Facebook.",
+  "main": "scripts/index.js",
+  "scripts": {
+    "onboarding": "node scripts/onboarding.js",
+    "generate": "node scripts/generate-content.js",
+    "adapt": "node scripts/adapt-for-platform.js",
+    "schedule": "node scripts/schedule-posts.js",
+    "validate": "node scripts/validate-config.js",
+    "analytics": "node scripts/collect-analytics.js",
+    "analyze": "node scripts/analyze-performance.js",
+    "report": "node scripts/daily-report.js",
+    "test": "node scripts/_test-mock.js",
+    "test:mock": "MOCK_MODE=true npm test"
+  },
+  "keywords": [
+    "marketing",
+    "social-media",
+    "automation",
+    "tiktok",
+    "instagram",
+    "youtube",
+    "linkedin",
+    "content-generation",
+    "openclaw",
+    "skill"
+  ],
+  "author": "ehi",
+  "license": "MIT",
+  "dependencies": {
+    "canvas": "^2.11.0",
+    "openai": "^4.50.0",
+    "axios": "^1.6.0",
+    "dotenv": "^16.4.0",
+    "yargs": "^17.7.0",
+    "chalk": "^5.3.0",
+    "ora": "^8.0.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openclaw/skills"
+  }
+}

@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OrchestrAI - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header .subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .card-icon {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+        
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .card-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #667eea;
+            margin: 15px 0;
+        }
+        
+        .card-detail {
+            font-size: 12px;
+            color: #999;
+            margin: 5px 0;
+        }
+        
+        .progress-bar {
+            background: #eee;
+            border-radius: 8px;
+            height: 8px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            border-radius: 8px;
+            transition: width 0.3s ease;
+        }
+        
+        .usage-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 12px;
+        }
+        
+        .usage-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .usage-stat-value {
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .usage-stat-label {
+            color: #999;
+            margin-top: 3px;
+        }
+        
+        /* Cost Breakdown Card */
+        .cost-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cost-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cost-label {
+            display: flex;
+            align-items: center;
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .cost-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .cost-value {
+            font-size: 13px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .cost-total {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 12px;
+            margin-top: 12px;
+            border-top: 2px solid #f0f0f0;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        /* ROI Card */
+        .roi-highlight {
+            background: linear-gradient(135deg, #667eea20, #764ba220);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #667eea;
+        }
+        
+        .roi-label {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .roi-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        /* Margin Card */
+        .margin-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 15px;
+            margin: 20px 0;
+            height: 100px;
+        }
+        
+        .margin-bar {
+            flex: 1;
+            background: #667eea;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+        }
+        
+        .margin-bar.revenue {
+            background: linear-gradient(180deg, #667eea, #5568d3);
+            height: 100%;
+        }
+        
+        .margin-bar.cost {
+            background: linear-gradient(180deg, #ff6b6b, #ff5252);
+            height: 5%;
+        }
+        
+        .margin-bar-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            color: #333;
+        }
+        
+        .margin-details {
+            font-size: 12px;
+            color: #666;
+            margin-top: 30px;
+        }
+        
+        .margin-detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .margin-detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        /* Upgrade Card */
+        .upgrade-alert {
+            background: #fff9e6;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .upgrade-alert.urgent {
+            background: #ffe6e6;
+            border-left-color: #ff6b6b;
+        }
+        
+        .upgrade-alert-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .upgrade-alert-text {
+            font-size: 13px;
+            color: #666;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background: #f5f7ff;
+        }
+        
+        /* Wide Card */
+        .card-wide {
+            grid-column: 1 / -1;
+        }
+        
+        /* Transparency Message */
+        .transparency-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .transparency-box p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* Loading State */
+        .skeleton {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-value {
+                font-size: 24px;
+            }
+            
+            .margin-chart {
+                flex-direction: column;
+                height: auto;
+            }
+            
+            .margin-bar {
+                height: 30px;
+                width: 100%;
+            }
+        }
+        
+        /* Animation */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card {
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        .card:nth-child(2) { animation-delay: 0.1s; }
+        .card:nth-child(3) { animation-delay: 0.2s; }
+        .card:nth-child(4) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎯 OrchestrAI Dashboard</h1>
+            <div class="subtitle">Complete cost transparency & usage metrics</div>
+        </div>
+        
+        <!-- Transparency Message -->
+        <div class="transparency-box">
+            <p>💚 <strong>Transparency is our policy.</strong> You see exactly what we pay to serve you. We make good money (85% margin), you save way more. Win-win.</p>
+        </div>
+        
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            
+            <!-- Usage Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">Usage This Month</div>
+                </div>
+                <div class="card-value" id="usage-value">342</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="usage-bar" style="width: 34%"></div>
+                </div>
+                <div class="usage-stats">
+                    <div class="usage-stat">
+                        <div class="usage-stat-value" id="usage-used">342</div>
+                        <div class="usage-stat-label">Used</div>
+                    </div>
+                    <div class="usage-stat">
+                        <div class="usage-stat-value" id="usage-limit">1,000</div>
+                        <div class="usage-stat-label">Limit</div>
+                    </div>
+                    <div class="usage-stat">
+                        <div class="usage-stat-value" id="usage-remaining">658</div>
+                        <div class="usage-stat-label">Remaining</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Monthly Cost Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">💰</div>
+                    <div class="card-title">Your Monthly Cost</div>
+                </div>
+                <div class="card-value" id="monthly-price">$700</div>
+                <div class="card-detail">Fixed price. No surprises.</div>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                    <div style="font-size: 12px; color: #999; margin-bottom: 5px;">Tier</div>
+                    <div style="font-size: 14px; font-weight: 600; color: #333;" id="tier-name">Starter</div>
+                </div>
+            </div>
+            
+            <!-- Our Cost Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🔧</div>
+                    <div class="card-title">Our Cost to Serve</div>
+                </div>
+                <div class="card-value" id="our-cost">$23</div>
+                <div class="card-detail">Claude API, hosting, support</div>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                    <div style="font-size: 12px; color: #999; margin-bottom: 5px;">Our Margin</div>
+                    <div style="font-size: 14px; font-weight: 600; color: #667eea;" id="our-margin">97%</div>
+                </div>
+            </div>
+            
+            <!-- Your Savings Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">💵</div>
+                    <div class="card-title">Net Monthly Savings</div>
+                </div>
+                <div class="card-value" id="net-roi">$3,150</div>
+                <div class="card-detail">vs. manual labor costs</div>
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee;">
+                    <div style="font-size: 12px; color: #999; margin-bottom: 5px;">Payback Period</div>
+                    <div style="font-size: 14px; font-weight: 600; color: #667eea;" id="payback-days">5 days</div>
+                </div>
+            </div>
+            
+            <!-- Cost Breakdown Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📉</div>
+                    <div class="card-title">Our Costs Breakdown</div>
+                </div>
+                <div class="cost-item">
+                    <div class="cost-label">
+                        <div class="cost-dot" style="background: #667eea;"></div>
+                        Claude API
+                    </div>
+                    <div class="cost-value" id="cost-claude">$6.00</div>
+                </div>
+                <div class="cost-item">
+                    <div class="cost-label">
+                        <div class="cost-dot" style="background: #764ba2;"></div>
+                        Hosting
+                    </div>
+                    <div class="cost-value" id="cost-hosting">$5.00</div>
+                </div>
+                <div class="cost-item">
+                    <div class="cost-label">
+                        <div class="cost-dot" style="background: #f093fb;"></div>
+                        Database
+                    </div>
+                    <div class="cost-value" id="cost-database">$2.00</div>
+                </div>
+                <div class="cost-item">
+                    <div class="cost-label">
+                        <div class="cost-dot" style="background: #f5576c;"></div>
+                        Support & Ops
+                    </div>
+                    <div class="cost-value" id="cost-support">$10.00</div>
+                </div>
+                <div class="cost-total">
+                    <span>Total Cost to Serve You</span>
+                    <span id="cost-total">$23.00</span>
+                </div>
+            </div>
+            
+            <!-- ROI Analysis Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">🎯</div>
+                    <div class="card-title">Your ROI Analysis</div>
+                </div>
+                <div class="roi-highlight">
+                    <div class="roi-label">Work Automated Per Month</div>
+                    <div class="roi-value" id="hours-saved">34 hours</div>
+                </div>
+                <div class="roi-highlight">
+                    <div class="roi-label">Value of That Work</div>
+                    <div class="roi-value" id="value-saved">$3,850</div>
+                </div>
+                <div class="roi-highlight">
+                    <div class="roi-label">Annual Savings</div>
+                    <div class="roi-value" id="annual-savings">$37,800</div>
+                </div>
+            </div>
+            
+            <!-- Margin Analysis Card -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-icon">📈</div>
+                    <div class="card-title">How We Profit</div>
+                </div>
+                <div class="margin-chart">
+                    <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                        <div class="margin-bar revenue"></div>
+                        <div class="margin-bar-label">Revenue</div>
+                    </div>
+                    <div style="flex: 1; display: flex; flex-direction: column; align-items: center;">
+                        <div class="margin-bar cost"></div>
+                        <div class="margin-bar-label">Cost</div>
+                    </div>
+                </div>
+                <div class="margin-details">
+                    <div class="margin-detail-row">
+                        <span>Revenue</span>
+                        <strong id="margin-revenue">$700.00</strong>
+                    </div>
+                    <div class="margin-detail-row">
+                        <span>Total Cost</span>
+                        <strong id="margin-cost">$23.00</strong>
+                    </div>
+                    <div class="margin-detail-row">
+                        <span>Our Profit</span>
+                        <strong style="color: #667eea;" id="margin-profit">$677.00</strong>
+                    </div>
+                    <div class="margin-detail-row">
+                        <span>Margin %</span>
+                        <strong style="color: #667eea;" id="margin-pct">97%</strong>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Upgrade Recommendation -->
+            <div class="card card-wide">
+                <div class="card-header">
+                    <div class="card-icon">⬆️</div>
+                    <div class="card-title">Upgrade Recommendation</div>
+                </div>
+                <div class="upgrade-alert" id="upgrade-alert">
+                    <div class="upgrade-alert-title">✅ No Upgrade Needed</div>
+                    <div class="upgrade-alert-text">You're using 34% of your requests. You have plenty of headroom.</div>
+                </div>
+                <button class="btn btn-secondary">View All Plans</button>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script>
+        // Dashboard Data Loading
+        async function loadDashboard() {
+            try {
+                // Mock data for demo (in production, call API)
+                const data = {
+                    usage: {
+                        requests_used: 342,
+                        requests_included: 1000,
+                        usage_percentage: 34.2
+                    },
+                    subscription: {
+                        tier: "starter",
+                        monthly_price: 700
+                    },
+                    costs: {
+                        claude_api: 6.00,
+                        hosting: 5.00,
+                        database: 2.00,
+                        integrations: 1.50,
+                        support: 5.00,
+                        infrastructure_overhead: 3.50,
+                        total: 23.00
+                    },
+                    margin: {
+                        revenue: 700.00,
+                        total_cost: 23.00,
+                        gross_margin_pct: 96.7,
+                        net_margin_pct: 96.7
+                    },
+                    roi: {
+                        hours_saved: 34,
+                        value_saved: 3850,
+                        net_monthly_roi: 3150,
+                        payback_period: 5,
+                        roi_percentage: 450,
+                        annual_savings: 37800
+                    }
+                };
+                
+                // Update UI
+                updateDashboard(data);
+            } catch (error) {
+                console.error("Error loading dashboard:", error);
+            }
+        }
+        
+        function updateDashboard(data) {
+            // Usage
+            document.getElementById("usage-value").textContent = data.usage.requests_used.toLocaleString();
+            document.getElementById("usage-used").textContent = data.usage.requests_used.toLocaleString();
+            document.getElementById("usage-limit").textContent = data.usage.requests_included.toLocaleString();
+            document.getElementById("usage-remaining").textContent = (data.usage.requests_included - data.usage.requests_used).toLocaleString();
+            document.getElementById("usage-bar").style.width = data.usage.usage_percentage + "%";
+            
+            // Pricing
+            document.getElementById("monthly-price").textContent = "$" + data.subscription.monthly_price.toLocaleString();
+            document.getElementById("tier-name").textContent = data.subscription.tier.charAt(0).toUpperCase() + data.subscription.tier.slice(1);
+            
+            // Costs
+            document.getElementById("our-cost").textContent = "$" + data.costs.total.toFixed(2);
+            document.getElementById("our-margin").textContent = (data.margin.net_margin_pct).toFixed(0) + "%";
+            document.getElementById("cost-claude").textContent = "$" + data.costs.claude_api.toFixed(2);
+            document.getElementById("cost-hosting").textContent = "$" + data.costs.hosting.toFixed(2);
+            document.getElementById("cost-database").textContent = "$" + data.costs.database.toFixed(2);
+            document.getElementById("cost-support").textContent = "$" + (data.costs.support + data.costs.infrastructure_overhead).toFixed(2);
+            document.getElementById("cost-total").textContent = "$" + data.costs.total.toFixed(2);
+            
+            // ROI
+            document.getElementById("net-roi").textContent = "$" + data.roi.net_monthly_roi.toLocaleString();
+            document.getElementById("payback-days").textContent = data.roi.payback_period + " days";
+            document.getElementById("hours-saved").textContent = data.roi.hours_saved + " hours";
+            document.getElementById("value-saved").textContent = "$" + data.roi.value_saved.toLocaleString();
+            document.getElementById("annual-savings").textContent = "$" + data.roi.annual_savings.toLocaleString();
+            
+            // Margin
+            document.getElementById("margin-revenue").textContent = "$" + data.margin.revenue.toFixed(2);
+            document.getElementById("margin-cost").textContent = "$" + data.margin.total_cost.toFixed(2);
+            document.getElementById("margin-profit").textContent = "$" + (data.margin.revenue - data.margin.total_cost).toFixed(2);
+            document.getElementById("margin-pct").textContent = data.margin.net_margin_pct.toFixed(0) + "%";
+        }
+        
+        // Load on page load
+        document.addEventListener("DOMContentLoaded", loadDashboard);
+    </script>
+</body>
+</html>
