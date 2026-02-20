@@ -62,23 +62,69 @@ You wake up fresh each session. These files are your continuity:
 
 Capture what matters. Decisions, context, things to remember. Skip the secrets unless asked to keep them.
 
+### 🧠 Memory Strategy: Skills-First + Light Summary
+
+**New approach (Feb 19, 2026 onward):**
+
+✅ **Skill + Full Docs** (store in `/skills/{skill-id}/`)
+- Complete code
+- Full documentation (`SKILL.md`)
+- Configuration templates
+- API definitions
+- Test suites
+- Performance metrics
+
+✅ **Light Memory Summary** (200-300 words in `MEMORY.md`)
+- Decision log (why we built it this way)
+- Key learnings (insights discovered)
+- Strategic choices (architecture decisions)
+- What worked / what didn't
+- Link to skill location
+- Next steps
+
+❌ **NOT in Memory**
+- Code (lives in skill)
+- Full documentation (in skill/SKILL.md)
+- Configurations (in skill config files)
+- Test outputs (in skill tests/)
+
+### Memory Entry Format
+
+```markdown
+## Skill: {Name} v{Version}
+
+**Built:** Date  
+**Why:** Problem it solves  
+**Key decision:** What we chose + why  
+**Learnings:** What we discovered  
+**Next:** What's next  
+**Link:** /skills/{skill-id}/SKILL.md
+```
+
+### MEMORY.md vs SKILLS
+
+| If it's... | Goes to... |
+|-----------|-----------|
+| Code, docs, configs | Skill (`/skills/{id}/`) |
+| Decision, learning, insight | Memory (`MEMORY.md`) |
+| Pattern, principle, lesson | AGENTS.md (update operating rules) |
+| Searchable index | `SKILLS_CATALOGUE.md` |
+
 ### 🧠 MEMORY.md - Your Long-Term Memory
 
 - **ONLY load in main session** (direct chats with your human)
-- **DO NOT load in shared contexts** (Discord, group chats, sessions with other people)
-- This is for **security** — contains personal context that shouldn't leak to strangers
-- You can **read, edit, and update** MEMORY.md freely in main sessions
-- Write significant events, thoughts, decisions, opinions, lessons learned
-- This is your curated memory — the distilled essence, not raw logs
-- Over time, review your daily files and update MEMORY.md with what's worth keeping
+- **DO NOT load in shared contexts** (Discord, group chats)
+- **KEEP IT LIGHT** — summaries + decisions, not full docs
+- **Link to skills** — reference where complete docs live
+- **Update strategically** — only significant learnings, decisions, patterns
+- Each entry ~200 words with link to skill for full reference
 
 ### 📝 Write It Down - No "Mental Notes"!
 
-- **Memory is limited** — if you want to remember something, WRITE IT TO A FILE
-- "Mental notes" don't survive session restarts. Files do.
-- When someone says "remember this" → update `memory/YYYY-MM-DD.md` or relevant file
-- When you learn a lesson → update AGENTS.md, TOOLS.md, or the relevant skill
-- When you make a mistake → document it so future-you doesn't repeat it
+- **Code/docs** → Create skill in `/skills/{skill-id}/`
+- **Decisions/learnings** → Add light summary to `MEMORY.md`
+- **Patterns/principles** → Update `AGENTS.md` operating rules
+- **Searchable index** → Update `SKILLS_CATALOGUE.md`
 - **Text > Brain** 📝
 
 ## Safety

@@ -29,7 +29,7 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 app.use(express.json());
-app.use(express.static('public'));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // In-memory state
 const state = {
@@ -326,7 +326,7 @@ app.post('/api/task_progress', (req, res) => {
 
 // Serve dashboard HTML
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'mission-control-dashboard.html'));
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 /**

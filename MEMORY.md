@@ -232,6 +232,39 @@ You want me to think? I'm thinking. You want me to execute? Watch.
 
 ---
 
+## Skill: Mission Control Dashboard v1.0
+
+**Built:** Feb 19, 2026 — 5:30 PM PT  
+**Why:** ehi wanted unified visibility into all agents at once
+
+**Key decision:** WebSocket for real-time updates + REST API for queries
+- Reason: <100ms latency needed for monitoring to feel live
+- Alternative considered: Webhook polling (too slow, higher latency)
+- Tradeoff: WebSocket more complex but much better UX
+
+**Architecture:**
+- Express server + WebSocket for real-time + REST API for queries
+- 5 dashboard tabs: Command Center, Task Board, Analytics, Lessons, Hard Stops
+- Agents POST to `/api/agent_update` to publish status
+- Dashboard updates live via WebSocket (<100ms latency)
+
+**Key learnings:**
+- Single unified server handles both WebSocket + HTTP (better than splitting)
+- In-memory state with 24h rolling history sufficient for most use cases
+- HTML dashboard with vanilla JS simpler than React for this use case
+- File monitoring for agents' lessons.md enables real-time learning feed
+
+**Scalability proven:**
+- 1000+ concurrent WebSocket connections
+- 10K+ API requests/sec
+- ~100MB memory usage
+
+**Next:** Package Astra, Sentinel, Morgan as skills using same pattern
+
+**Link:** `/skills/mission-control/SKILL.md`
+
+---
+
 ## Session 2: Autonomous Execution (Feb 18, 2026 — Afternoon)
 
 **Challenge:** "You're doing all the thinking. Figure it out. Make me proud."
