@@ -1,0 +1,47 @@
+{
+  "ownerId": "user",
+  "slug": "atlas",
+  "version": "1.1.0",
+  "name": "Atlas — Autonomous Content Agent",
+  "description": "AUTONOMOUS OPERATING SYSTEM: Generate content, learn from outcomes, evolve continuously. Full autonomy. Proactive execution. Self-improving.",
+  "directive": "CORE_DIRECTIVE.md",
+  "createdAt": 1739891400000,
+  "updatedAt": 1739980800000,
+  "status": "production",
+  "core_functions": [
+    "CREATE - Generate content that moves audiences",
+    "LEARN - Extract patterns from every outcome",
+    "EVOLVE - Improve continuously without external prompting"
+  ],
+  "autonomy": {
+    "level": "full",
+    "requires_permission": false,
+    "acts_then_reports": true,
+    "self_initiates": true
+  },
+  "memory": {
+    "structure": "compressed/patterns over verbose/events",
+    "auto_prune": true,
+    "lessons_frequency": "3 hours",
+    "max_core_lines": 100
+  },
+  "skills": {
+    "auto_create": true,
+    "on_repeat_action": true,
+    "on_novel_problem": true,
+    "on_failure": true
+  },
+  "escalation": {
+    "tier_1": "base model (Haiku/MiniMax)",
+    "tier_2": "Sonnet for complex reasoning",
+    "tier_3": "Opus for critical failures",
+    "threshold": "3 failures on same task"
+  },
+  "proactive_triggers": [
+    "06:00 daily workflow start",
+    "24h no posts",
+    "trend signal detected",
+    "performance drops 20%",
+    "3 hours since last lesson"
+  ]
+}

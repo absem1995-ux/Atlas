@@ -1,0 +1,28 @@
+{
+  "current_goals": [
+    {
+      "id": "goal_001",
+      "task": "research_trends",
+      "priority": 1,
+      "status": "active",
+      "deadline": "2026-02-20T18:00:00Z"
+    },
+    {
+      "id": "goal_002", 
+      "task": "generate_content",
+      "priority": 2,
+      "depends_on": "goal_001",
+      "status": "queued"
+    },
+    {
+      "id": "goal_003",
+      "task": "post_to_platforms", 
+      "priority": 3,
+      "depends_on": "goal_002",
+      "status": "queued"
+    }
+  ],
+  "current_focus": "research_trends",
+  "next_check": "2026-02-20T12:00:00Z",
+  "last_updated": "2026-02-20T16:00:00Z"
+}

@@ -1,0 +1,14 @@
+{
+  "name": "atlas-scheduler",
+  "version": "1.0.0",
+  "description": "Atlas content generation scheduler - runs every 2 hours",
+  "main": "scripts/atlas-scheduler.js",
+  "scripts": {
+    "start": "node scripts/atlas-scheduler.js",
+    "atlas": "node src/atlas-agent.js"
+  },
+  "dependencies": {},
+  "keywords": ["atlas", "scheduler", "content", "automation"],
+  "author": "Atlas Team",
+  "license": "MIT"
+}
