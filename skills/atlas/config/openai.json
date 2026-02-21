@@ -1,0 +1,8 @@
+{
+  "provider": "openai",
+  "model": "gpt-4o",
+  "api_key_env": "OPENAI_API_KEY",
+  "image_model": "dall-e-3",
+  "image_quality": "standard",
+  "image_size": "1024x1024"
+}
