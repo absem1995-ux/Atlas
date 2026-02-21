@@ -1,0 +1,42 @@
+{
+  "id": "larrybrain",
+  "name": "LarryBrain / PAI - Personal AI Infrastructure",
+  "version": "1.0.0",
+  "description": "Skills, hooks, memory, and agent system from Daniel Miessler's Personal AI Infrastructure",
+  "author": "Daniel Miessler (PAI), adapted by James",
+  "source": "https://github.com/danielmiessler/Personal_AI_Infrastructure",
+  "created": "2026-02-20T17:35:00Z",
+  "status": "research_complete",
+  "keywords": [
+    "pai",
+    "personal-ai-infrastructure",
+    "larrybrain",
+    "skills",
+    "hooks",
+    "memory",
+    "agents"
+  ],
+  "components": {
+    "skills": 23,
+    "hooks": 30,
+    "agents": 20,
+    "memory_files": ["MEMORY.md", "DIARY.md"]
+  },
+  "key_features": [
+    "23+ modular skills",
+    "30+ lifecycle hooks",
+    "20+ specialized agents",
+    "Persistent memory system",
+    "Auto-loading context",
+    "Git-based total recall (via pi_forever)"
+  ],
+  "integration": {
+    "our_system": "Already have skills/memory/agents/hooks built",
+    "recommendation": "Hybrid - add missing PAI components"
+  },
+  "resources": {
+    "repo": "https://github.com/danielmiessler/Personal_AI_Infrastructure",
+    "discussion": "https://github.com/danielmiessler/Personal_AI_Infrastructure/discussions/392",
+    "larry_story": "https://nixfred.com/ Larry"
+  }
+}

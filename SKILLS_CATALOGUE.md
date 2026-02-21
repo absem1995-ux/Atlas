@@ -76,6 +76,17 @@ node mission-control.js
 
 ---
 
+### 9. LarryBrain / PAI Skill
+**ID:** `larrybrain`  
+**Version:** 1.0.0  
+**Status:** Research Complete  
+**Location:** `/skills/larrybrain/`  
+**What it does:** Skills, hooks, memory, and agent system from Daniel Miessler's PAI project. 23+ skills, 30+ hooks, 20+ agents.
+
+**Recommendation:** Hybrid approach - we have core, add missing PAI components
+
+---
+
 ## Skill Creation Checklist
 
 When creating a new skill, follow this template:
