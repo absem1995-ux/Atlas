@@ -3,27 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mission Control — Multi-Agent Dashboard</title>
+  <title>Mission Control — Multi-Agent Dashboard v3.0</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     
     body {
       font-family: 'Monaco', 'Courier New', monospace;
       background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
       color: #e8e8e8;
       padding: 20px;
-      line-height: 1.6;
+      min-height: 100vh;
     }
     
     header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
+      margin-bottom: 20px;
       padding-bottom: 20px;
       border-bottom: 2px solid #00d4ff;
     }
@@ -33,19 +29,12 @@
       background: linear-gradient(90deg, #00d4ff, #00ffaa);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
     }
     
     .status-bar {
       display: flex;
-      gap: 30px;
+      gap: 20px;
       align-items: center;
-    }
-    
-    .status-indicator {
-      display: flex;
-      align-items: center;
-      gap: 8px;
       font-size: 14px;
     }
     
@@ -53,267 +42,258 @@
       width: 10px;
       height: 10px;
       border-radius: 50%;
-      animation: pulse 2s infinite;
+      display: inline-block;
+      margin-right: 5px;
     }
     
     .status-dot.healthy { background: #00ff00; }
-    .status-dot.warning { background: #ffaa00; }
+    .status-dot.working { background: #00d4ff; }
+    .status-dot.idle { background: #ffaa00; }
     .status-dot.error { background: #ff0055; }
     
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .pulse { animation: pulse 2s infinite; }
     
-    .container {
-      max-width: 1600px;
-      margin: 0 auto;
-    }
-    
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-    
-    .card {
-      background: rgba(20, 35, 60, 0.8);
-      border: 1px solid #00d4ff;
-      border-radius: 8px;
-      padding: 20px;
-      backdrop-filter: blur(10px);
-    }
-    
-    .card-title {
-      font-size: 16px;
-      font-weight: bold;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: #00ffaa;
-    }
-    
-    .agent-card {
-      position: relative;
-    }
-    
-    .agent-status {
-      font-size: 12px;
-      display: flex;
-      justify-content: space-between;
-      margin-top: 8px;
-    }
-    
-    .agent-status-text {
-      padding: 4px 8px;
-      border-radius: 4px;
-      background: rgba(0, 255, 170, 0.1);
-      border: 1px solid #00ffaa;
-      font-size: 11px;
-    }
-    
-    .task-info {
-      margin-top: 12px;
-      padding: 10px;
-      background: rgba(0, 212, 255, 0.05);
-      border-left: 3px solid #00d4ff;
-      border-radius: 4px;
-      font-size: 12px;
-    }
-    
-    .progress-bar {
-      width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 3px;
-      overflow: hidden;
-      margin-top: 8px;
-    }
-    
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #00d4ff, #00ffaa);
-      width: 0%;
-      transition: width 0.3s ease;
-    }
-    
-    .metrics {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
-      margin-top: 12px;
-      font-size: 12px;
-    }
-    
-    .metric {
-      padding: 8px;
-      background: rgba(0, 255, 170, 0.05);
-      border: 1px solid rgba(0, 255, 170, 0.3);
-      border-radius: 4px;
-    }
-    
-    .metric-label {
-      color: #00d4ff;
-      font-size: 10px;
-      text-transform: uppercase;
-    }
-    
-    .metric-value {
-      font-weight: bold;
-      margin-top: 4px;
-      color: #00ffaa;
-      font-size: 14px;
-    }
-    
-    .alerts-section {
-      grid-column: 1 / -1;
-    }
-    
-    .alert {
-      padding: 12px;
-      background: rgba(255, 100, 0, 0.1);
-      border-left: 4px solid #ff6400;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      font-size: 12px;
-    }
-    
-    .alert.critical {
-      background: rgba(255, 0, 85, 0.1);
-      border-left-color: #ff0055;
-    }
-    
-    .lessons-section {
-      grid-column: 1 / -1;
-    }
-    
-    .lesson {
-      padding: 12px;
-      background: rgba(0, 255, 170, 0.05);
-      border-left: 4px solid #00ffaa;
-      margin-bottom: 10px;
-      border-radius: 4px;
-      font-size: 11px;
-    }
-    
-    .lesson.success {
-      border-left-color: #00ff00;
-      background: rgba(0, 255, 0, 0.05);
-    }
-    
-    .lesson.failure {
-      border-left-color: #ff0055;
-      background: rgba(255, 0, 85, 0.05);
-    }
-    
-    .lesson-agent {
-      color: #00d4ff;
-      font-weight: bold;
-      font-size: 10px;
-      text-transform: uppercase;
-    }
-    
-    .lesson-text {
-      margin-top: 4px;
-      color: #e8e8e8;
-    }
-    
-    .hard-stops-section {
-      grid-column: 1 / -1;
-    }
-    
-    .hard-stop {
-      padding: 12px;
-      background: rgba(255, 170, 0, 0.1);
-      border: 2px solid #ffaa00;
-      border-radius: 4px;
-      margin-bottom: 10px;
-    }
-    
-    .hard-stop-title {
-      font-weight: bold;
-      color: #ffaa00;
-      margin-bottom: 8px;
-    }
-    
-    .hard-stop-message {
-      margin-bottom: 10px;
-      font-size: 12px;
-    }
-    
-    .button-group {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    
-    button {
-      padding: 6px 12px;
-      border: 1px solid;
-      border-radius: 4px;
-      background: rgba(0, 212, 255, 0.1);
-      color: #00d4ff;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: bold;
-      transition: all 0.2s;
-    }
-    
-    button:hover {
-      background: rgba(0, 212, 255, 0.2);
-      border-color: #00ffff;
-    }
-    
-    button.success {
-      border-color: #00ff00;
-      color: #00ff00;
-      background: rgba(0, 255, 0, 0.1);
-    }
-    
-    button.success:hover {
-      background: rgba(0, 255, 0, 0.2);
-    }
-    
-    .timestamp {
-      font-size: 10px;
-      color: #888;
-      margin-top: 10px;
-      text-align: right;
-    }
-    
+    /* Tabs */
     .tabs {
       display: flex;
-      gap: 10px;
+      gap: 5px;
       margin-bottom: 20px;
-      border-bottom: 2px solid #00d4ff;
+      flex-wrap: wrap;
     }
     
     .tab {
       padding: 12px 20px;
-      background: transparent;
-      border: none;
+      background: rgba(20, 35, 60, 0.8);
+      border: 1px solid #00d4ff;
       color: #00d4ff;
       cursor: pointer;
       font-weight: bold;
-      border-bottom: 3px solid transparent;
+      font-size: 13px;
       transition: all 0.2s;
     }
     
+    .tab:hover { background: rgba(0, 212, 255, 0.1); }
+    
     .tab.active {
-      border-bottom-color: #00ffaa;
+      background: linear-gradient(135deg, #00d4ff 0%, #00ffaa 100%);
+      color: #0a0e27;
+      border-color: #00ffaa;
+    }
+    
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    /* Common styles */
+    .card {
+      background: rgba(20, 35, 60, 0.8);
+      border: 1px solid #00d4ff;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .card-title {
+      font-size: 14px;
+      font-weight: bold;
       color: #00ffaa;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     
-    .tab-content {
-      display: none;
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
     }
     
-    .tab-content.active {
-      display: block;
+    .btn {
+      padding: 8px 16px;
+      border: 1px solid #00d4ff;
+      background: rgba(0, 212, 255, 0.1);
+      color: #00d4ff;
+      cursor: pointer;
+      font-size: 12px;
+      border-radius: 4px;
     }
     
+    .btn:hover { background: rgba(0, 212, 255, 0.2); }
+    
+    .btn-primary {
+      background: linear-gradient(135deg, #00d4ff 0%, #00ffaa 100%);
+      color: #0a0e27;
+      border: none;
+    }
+    
+    /* Status badges */
+    .badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+    
+    .badge.high { background: #ff0055; }
+    .badge.medium { background: #ffaa00; color: #0a0e27; }
+    .badge.low { background: #00ffaa; color: #0a0e27; }
+    
+    .badge.todo { background: #888; }
+    .badge.in_progress { background: #00d4ff; color: #0a0e27; }
+    .badge.done { background: #00ff00; color: #0a0e27; }
+    
+    .badge.idea { background: #ff64ff; }
+    .badge.script { background: #00d4ff; color: #0a0e27; }
+    .badge.thumbnail { background: #ffaa00; color: #0a0e27; }
+    .badge.filming { background: #ff6400; }
+    .badge.done { background: #00ff00; color: #0a0e27; }
+    
+    /* Forms */
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid #00d4ff;
+      color: #e8e8e8;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      font-family: inherit;
+    }
+    
+    /* Memory search */
+    .search-box {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .search-box input { flex: 1; margin-bottom: 0; }
+    
+    /* Team */
+    .team-member {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .team-avatar {
+      font-size: 32px;
+      width: 50px;
+      text-align: center;
+    }
+    
+    .team-info { flex: 1; }
+    .team-name { font-weight: bold; color: #00ffaa; }
+    .team-role { font-size: 12px; color: #888; }
+    .team-status { font-size: 11px; }
+    
+    /* Office */
+    .office-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    
+    .workstation {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+      border: 2px solid transparent;
+    }
+    
+    .workstation.working { border-color: #00ff00; }
+    .workstation.idle { border-color: #ffaa00; opacity: 0.6; }
+    
+    .station-icon { font-size: 40px; margin-bottom: 8px; }
+    .station-name { font-weight: bold; color: #00d4ff; }
+    .station-task { font-size: 11px; color: #888; margin-top: 8px; }
+    .computer {
+      width: 40px;
+      height: 28px;
+      background: #333;
+      border-radius: 4px;
+      margin: 8px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .computer.on { background: #00ff00; box-shadow: 0 0 10px #00ff00; }
+    .computer.off { background: #333; }
+    
+    /* Calendar */
+    .calendar-event {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      margin-bottom: 8px;
+      border-left: 3px solid #00d4ff;
+    }
+    
+    .calendar-time {
+      font-weight: bold;
+      color: #00d4ff;
+      min-width: 80px;
+    }
+    
+    .calendar-recurring {
+      font-size: 10px;
+      background: #00ffaa;
+      color: #0a0e27;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    
+    /* Pipeline stages */
+    .pipeline-stages {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .stage {
+      padding: 6px 12px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+      font-size: 11px;
+      cursor: pointer;
+    }
+    
+    .stage.active {
+      background: #00d4ff;
+      color: #0a0e27;
+    }
+    
+    /* Memory */
+    .memory-item {
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border-left: 3px solid #00ffaa;
+    }
+    
+    .memory-title { font-weight: bold; color: #00d4ff; margin-bottom: 8px; }
+    .memory-content { font-size: 13px; line-height: 1.5; }
+    .memory-meta { font-size: 11px; color: #888; margin-top: 8px; }
+    
+    .memory-item.correction { border-left-color: #ff0055; }
+    .memory-item.system { border-left-color: #00d4ff; }
+    .memory-item.discovery { border-left-color: #ffaa00; }
+    .memory-item.learning { border-left-color: #00ff00; }
+    
+    /* Loading */
     .loading {
       text-align: center;
       padding: 40px;
@@ -330,419 +310,442 @@
       animation: spin 0.8s linear infinite;
     }
     
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
   <header>
-    <h1>🎯 MISSION CONTROL</h1>
+    <h1>🎯 MISSION CONTROL v3.0</h1>
     <div class="status-bar">
-      <div class="status-indicator">
-        <div class="status-dot healthy" id="systemStatus"></div>
-        <span id="statusText">System: INITIALIZING</span>
-      </div>
-      <div class="status-indicator">
-        <span id="agentCount">Agents: 0/0</span>
-      </div>
-      <div class="status-indicator">
-        <span id="taskCount">Tasks: 0</span>
-      </div>
-      <div class="status-indicator">
-        <span id="alertCount">Alerts: 0</span>
-      </div>
+      <span><span class="status-dot healthy pulse"></span>System: Online</span>
+      <span id="teamCount">Team: 0</span>
+      <span id="taskCount">Active Tasks: 0</span>
     </div>
   </header>
   
-  <div class="container">
-    <div class="tabs">
-      <button class="tab active" onclick="switchTab('command')">Command Center</button>
-      <button class="tab" onclick="switchTab('tasks')">Task Board</button>
-      <button class="tab" onclick="switchTab('analytics')">Performance</button>
-      <button class="tab" onclick="switchTab('lessons')">Lessons</button>
-      <button class="tab" onclick="switchTab('control')">Hard Stops</button>
-    </div>
-    
-    <!-- Command Center Tab -->
-    <div id="command" class="tab-content active">
-      <div class="grid" id="commandGrid">
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>Loading agent status...</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Task Board Tab -->
-    <div id="tasks" class="tab-content">
-      <div class="grid" id="tasksGrid">
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>Loading tasks...</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Analytics Tab -->
-    <div id="analytics" class="tab-content">
-      <div class="grid" id="analyticsGrid">
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>Loading performance data...</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Lessons Tab -->
-    <div id="lessons" class="tab-content">
-      <div class="grid" id="lessonsGrid">
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>Loading lessons...</p>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Hard Stops Tab -->
-    <div id="control" class="tab-content">
-      <div class="grid" id="controlGrid">
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>Loading hard stops...</p>
-        </div>
-      </div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('command')">🏠 Command Center</button>
+    <button class="tab" onclick="switchTab('tasks')">✅ Tasks Board</button>
+    <button class="tab" onclick="switchTab('pipeline')">📺 Content Pipeline</button>
+    <button class="tab" onclick="switchTab('calendar')">📅 Calendar</button>
+    <button class="tab" onclick="switchTab('team')">👥 Team</button>
+    <button class="tab" onclick="switchTab('office')">🏢 Office</button>
+    <button class="tab" onclick="switchTab('memories')">🧠 Memory</button>
+  </div>
+  
+  <!-- COMMAND CENTER -->
+  <div id="command" class="tab-content active">
+    <div class="grid" id="commandGrid">
+      <div class="loading"><div class="spinner"></div></div>
     </div>
   </div>
   
+  <!-- TASKS BOARD -->
+  <div id="tasks" class="tab-content">
+    <div style="margin-bottom: 20px;">
+      <button class="btn btn-primary" onclick="showAddTask()">+ Add Task</button>
+    </div>
+    <div id="tasksBoard"></div>
+  </div>
+  
+  <!-- CONTENT PIPELINE -->
+  <div id="pipeline" class="tab-content">
+    <div class="pipeline-stages">
+      <span class="stage active" onclick="filterPipeline('all')">All</span>
+      <span class="stage" onclick="filterPipeline('idea')">💡 Idea</span>
+      <span class="stage" onclick="filterPipeline('script')">📝 Script</span>
+      <span class="stage" onclick="filterPipeline('thumbnail')">🖼️ Thumbnail</span>
+      <span class="stage" onclick="filterPipeline('filming')">🎬 Filming</span>
+      <span class="stage" onclick="filterPipeline('done')">✅ Done</span>
+    </div>
+    <div class="grid" id="pipelineGrid"></div>
+  </div>
+  
+  <!-- CALENDAR -->
+  <div id="calendar" class="tab-content">
+    <div style="margin-bottom: 20px;">
+      <button class="btn btn-primary" onclick="showAddEvent()">+ Add Event</button>
+    </div>
+    <div id="calendarGrid"></div>
+  </div>
+  
+  <!-- TEAM -->
+  <div id="team" class="tab-content">
+    <div id="teamGrid"></div>
+  </div>
+  
+  <!-- OFFICE -->
+  <div id="office" class="tab-content">
+    <div class="office-grid" id="officeGrid"></div>
+  </div>
+  
+  <!-- MEMORIES -->
+  <div id="memories" class="tab-content">
+    <div class="search-box">
+      <input type="text" id="memorySearch" placeholder="Search memories..." onkeyup="searchMemories()">
+      <button class="btn" onclick="searchMemories()">Search</button>
+    </div>
+    <div id="memoriesGrid"></div>
+  </div>
+  
   <script>
+    let state = {};
     let ws = null;
-    let state = {
-      agents: {},
-      tasks: {},
-      lessons: [],
-      hardStops: [],
-      alerts: []
-    };
     
-    // Connect to WebSocket
-    function connectWebSocket() {
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      ws = new WebSocket(`${protocol}//${window.location.host}/ws`);
+    // Connect WebSocket
+    function connect() {
+      ws = new WebSocket(`ws://${location.host}/ws`);
       
-      ws.onopen = () => {
-        console.log('[WS] Connected');
-        updateStatusIndicator('healthy', 'System: READY');
-        loadInitialData();
-      };
+      ws.onopen = () => console.log('[WS] Connected');
       
       ws.onmessage = (event) => {
-        const message = JSON.parse(event.data);
-        handleMessage(message);
+        const msg = JSON.parse(event.data);
+        if (msg.type === 'initial_state') {
+          state = msg;
+          renderAll();
+        } else if (msg.type === 'tasks_board_update') {
+          state.tasks_board = state.tasks_board || [];
+          const idx = state.tasks_board.findIndex(t => t.id === msg.task.id);
+          if (idx >= 0) state.tasks_board[idx] = msg.task;
+          else state.tasks_board.push(msg.task);
+          renderTasksBoard();
+        } else if (msg.type === 'content_pipeline_update') {
+          state.content_pipeline = state.content_pipeline || [];
+          const idx = state.content_pipeline.findIndex(i => i.id === msg.item.id);
+          if (idx >= 0) state.content_pipeline[idx] = msg.item;
+          else state.content_pipeline.push(msg.item);
+          renderPipeline();
+        } else if (msg.type === 'team_update') {
+          state.team = state.team || [];
+          const idx = state.team.findIndex(t => t.id === msg.member.id);
+          if (idx >= 0) state.team[idx] = msg.member;
+          else state.team.push(msg.member);
+          renderTeam();
+        } else if (msg.type === 'office_update') {
+          state.office = state.office || [];
+          const idx = state.office.findIndex(o => o.id === msg.station.id);
+          if (idx >= 0) state.office[idx] = msg.station;
+          else state.office.push(msg.station);
+          renderOffice();
+        } else if (msg.type === 'memory_update') {
+          state.memories = state.memories || [];
+          state.memories.unshift(msg.memory);
+          renderMemories();
+        }
       };
       
-      ws.onerror = (error) => {
-        console.error('[WS] Error:', error);
-        updateStatusIndicator('error', 'System: CONNECTION ERROR');
-      };
+      ws.onclose = () => setTimeout(connect, 3000);
+    }
+    
+    // Load initial data
+    async function loadData() {
+      const [status, tasksBoard, pipeline, calendar, team, office, memories] = await Promise.all([
+        fetch('/api/status').then(r => r.json()),
+        fetch('/api/tasks-board').then(r => r.json()),
+        fetch('/api/content-pipeline').then(r => r.json()),
+        fetch('/api/calendar').then(r => r.json()),
+        fetch('/api/team').then(r => r.json()),
+        fetch('/api/office').then(r => r.json()),
+        fetch('/api/memories').then(r => r.json())
+      ]);
       
-      ws.onclose = () => {
-        console.log('[WS] Disconnected');
-        updateStatusIndicator('warning', 'System: RECONNECTING...');
-        setTimeout(connectWebSocket, 3000);
-      };
+      state = { ...state, ...status, tasks_board: tasksBoard.tasks, content_pipeline: pipeline.pipeline, calendar: calendar.events, team: team.team, office: office.office, memories: memories.memories };
+      renderAll();
     }
     
-    // Handle incoming messages
-    function handleMessage(msg) {
-      if (msg.type === 'initial_state') {
-        state = msg;
-        renderAll();
-      } else if (msg.type === 'agent_update') {
-        state.agents[msg.agent] = msg.data;
-        renderCommandCenter();
-      } else if (msg.type === 'task_created' || msg.type === 'task_progress') {
-        state.tasks[msg.task.id] = msg.task;
-        renderTasks();
-      } else if (msg.type === 'hard_stop_resolved') {
-        renderHardStops();
-      }
-    }
-    
-    // Load initial data via REST API
-    async function loadInitialData() {
-      try {
-        const responses = await Promise.all([
-          fetch('/api/agents').then(r => r.json()),
-          fetch('/api/tasks').then(r => r.json()),
-          fetch('/api/lessons').then(r => r.json()),
-          fetch('/api/hard_stops').then(r => r.json())
-        ]);
-        
-        state.agents = responses[0].agents.reduce((acc, a) => {
-          acc[a.id] = a;
-          return acc;
-        }, {});
-        
-        state.tasks = responses[1].tasks.reduce((acc, t) => {
-          acc[t.id] = t;
-          return acc;
-        }, {});
-        
-        state.lessons = responses[2].lessons;
-        state.hardStops = responses[3].pending;
-        
-        renderAll();
-      } catch (e) {
-        console.error('Failed to load data:', e);
-      }
-    }
-    
-    // Render all views
     function renderAll() {
       renderCommandCenter();
-      renderTasks();
-      renderAnalytics();
-      renderLessons();
-      renderHardStops();
-      updateHeaderStats();
+      renderTasksBoard();
+      renderPipeline();
+      renderCalendar();
+      renderTeam();
+      renderOffice();
+      renderMemories();
+      
+      document.getElementById('teamCount').textContent = `Team: ${(state.team || []).length}`;
+      document.getElementById('taskCount').textContent = `Active Tasks: ${(state.tasks_board || []).filter(t => t.status === 'in_progress').length}`;
     }
     
-    // Render command center
+    // Command Center
     function renderCommandCenter() {
       const grid = document.getElementById('commandGrid');
-      grid.innerHTML = '';
+      const team = state.team || [];
       
-      // System status card
-      const systemCard = document.createElement('div');
-      systemCard.className = 'card';
-      systemCard.innerHTML = `
-        <div class="card-title">🎯 SYSTEM STATUS</div>
-        <div style="font-size: 12px; line-height: 1.8;">
-          <div>Uptime: <strong id="uptime">--</strong></div>
-          <div>Agents Online: <strong id="agentsOnline">0/0</strong></div>
-          <div>Tasks Active: <strong id="tasksActive">0</strong></div>
-          <div class="timestamp" id="sysTimestamp">--</div>
+      grid.innerHTML = `
+        <div class="card">
+          <div class="card-title">🎯 SYSTEM STATUS</div>
+          <div style="font-size: 12px;">
+            <div>Uptime: ${formatUptime(state.uptime)}</div>
+            <div>Team Active: ${team.filter(t => t.status === 'working').length}/${team.length}</div>
+            <div>Tasks In Progress: ${(state.tasks_board || []).filter(t => t.status === 'in_progress').length}</div>
+          </div>
         </div>
       `;
-      grid.appendChild(systemCard);
       
-      // Agent cards
-      Object.values(state.agents).forEach(agent => {
-        const card = document.createElement('div');
-        card.className = 'card agent-card';
-        
-        const statusColor = agent.status === 'active' ? '#00ffaa' : agent.status === 'idle' ? '#00d4ff' : '#888';
-        const statusEmoji = agent.status === 'active' ? '🟢' : agent.status === 'idle' ? '✅' : '⚠️';
-        
-        let performanceHtml = '';
-        if (agent.performance && Object.keys(agent.performance).length > 0) {
-          performanceHtml = `
-            <div class="metrics">
-              ${agent.performance.views ? `<div class="metric"><div class="metric-label">Views</div><div class="metric-value">${agent.performance.views.toLocaleString()}</div></div>` : ''}
-              ${agent.performance.engagement ? `<div class="metric"><div class="metric-label">Engagement</div><div class="metric-value">${(agent.performance.engagement * 100).toFixed(1)}%</div></div>` : ''}
-              ${agent.performance.costToday ? `<div class="metric"><div class="metric-label">Cost Today</div><div class="metric-value">$${agent.performance.costToday.toFixed(2)}</div></div>` : ''}
+      team.forEach(member => {
+        grid.innerHTML += `
+          <div class="card">
+            <div class="card-title">${member.avatar} ${member.name}</div>
+            <div style="font-size: 12px;">
+              <div><span class="status-dot ${member.status === 'working' ? 'working' : 'idle'}"></span>${member.status.toUpperCase()}</div>
+              <div>Role: ${member.role}</div>
+              <div>Manager: ${member.manager}</div>
             </div>
-          `;
-        }
-        
-        card.innerHTML = `
-          <div class="card-title" style="color: ${statusColor};">
-            ${agent.name.charAt(0).toUpperCase() + agent.name.slice(1)}
           </div>
-          <div class="agent-status">
-            <span>${statusEmoji} ${agent.status.toUpperCase()}</span>
-            <span>${new Date(agent.lastUpdate).toLocaleTimeString()}</span>
-          </div>
-          ${agent.currentTask ? `
-            <div class="task-info">
-              <strong>${agent.currentTask}</strong>
-              ${agent.progress ? `<div class="progress-bar"><div class="progress-fill" style="width: ${(agent.progress * 100).toFixed(0)}%"></div></div>` : ''}
-              ${agent.progress ? `<div style="margin-top: 4px; font-size: 10px; color: #00d4ff;">${(agent.progress * 100).toFixed(0)}% complete</div>` : ''}
-            </div>
-          ` : '<div style="color: #888; margin-top: 8px; font-size: 11px;">No active task</div>'}
-          ${performanceHtml}
         `;
-        
-        grid.appendChild(card);
       });
     }
     
-    // Render task board
-    function renderTasks() {
-      const grid = document.getElementById('tasksGrid');
-      const tasks = Object.values(state.tasks).filter(t => t.progress < 1);
+    // Tasks Board
+    function renderTasksBoard() {
+      const container = document.getElementById('tasksBoard');
+      const tasks = state.tasks_board || [];
       
       if (tasks.length === 0) {
-        grid.innerHTML = '<div class="card" style="grid-column: 1/-1;"><p style="color: #888;">No active tasks</p></div>';
+        container.innerHTML = '<p style="color:#888">No tasks yet. Add one!</p>';
         return;
       }
       
-      grid.innerHTML = '';
-      tasks.forEach(task => {
-        const card = document.createElement('div');
-        card.className = 'card';
-        
-        let stepsHtml = '';
-        if (task.steps && task.steps.length > 0) {
-          stepsHtml = '<div style="font-size: 11px; margin-top: 8px;">';
-          task.steps.forEach(step => {
-            const icon = step.status === 'complete' ? '✅' : step.status === 'active' ? '🟢' : '⏳';
-            stepsHtml += `<div>${icon} ${step.name}</div>`;
-          });
-          stepsHtml += '</div>';
-        }
-        
-        card.innerHTML = `
-          <div class="card-title">📱 ${task.name}</div>
-          <div style="font-size: 12px; margin-bottom: 8px; color: #00d4ff;">${task.agent.toUpperCase()}</div>
-          <div class="progress-bar"><div class="progress-fill" style="width: ${(task.progress * 100).toFixed(0)}%"></div></div>
-          <div style="margin-top: 4px; font-size: 10px; color: #00d4ff;">${(task.progress * 100).toFixed(0)}% complete</div>
-          ${stepsHtml}
-          <div class="timestamp">Started: ${new Date(task.started).toLocaleTimeString()}</div>
-        `;
-        
-        grid.appendChild(card);
-      });
-    }
-    
-    // Render analytics
-    function renderAnalytics() {
-      const grid = document.getElementById('analyticsGrid');
-      grid.innerHTML = '';
-      
-      if (state.agents.atlas && state.agents.atlas.performance) {
-        const perf = state.agents.atlas.performance;
-        const card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = `
-          <div class="card-title">📊 ATLAS PERFORMANCE (24h)</div>
-          <div class="metrics" style="grid-template-columns: 1fr;">
-            ${perf.views ? `<div class="metric"><div class="metric-label">Views</div><div class="metric-value">${perf.views.toLocaleString()}</div></div>` : ''}
-            ${perf.engagement ? `<div class="metric"><div class="metric-label">Engagement Rate</div><div class="metric-value">${(perf.engagement * 100).toFixed(1)}%</div></div>` : ''}
-            ${perf.postsMonth ? `<div class="metric"><div class="metric-label">Posts/Month</div><div class="metric-value">${perf.postsMonth}</div></div>` : ''}
-            ${perf.costAvg ? `<div class="metric"><div class="metric-label">Cost/Post</div><div class="metric-value">$${perf.costAvg.toFixed(2)}</div></div>` : ''}
-            ${perf.costToday ? `<div class="metric"><div class="metric-label">Cost Today</div><div class="metric-value">$${perf.costToday.toFixed(2)}</div></div>` : ''}
+      container.innerHTML = tasks.map(task => `
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:start;">
+            <div>
+              <div style="font-weight:bold;color:#00ffaa;">${task.title}</div>
+              <div style="font-size:11px;color:#888;margin-top:4px;">Owner: ${task.owner}</div>
+            </div>
+            <span class="badge ${task.status}">${task.status.replace('_', ' ')}</span>
           </div>
-        `;
-        grid.appendChild(card);
-      }
-    }
-    
-    // Render lessons
-    function renderLessons() {
-      const grid = document.getElementById('lessonsGrid');
-      
-      if (state.lessons.length === 0) {
-        grid.innerHTML = '<div class="card" style="grid-column: 1/-1;"><p style="color: #888;">No lessons captured yet</p></div>';
-        return;
-      }
-      
-      grid.innerHTML = '';
-      state.lessons.slice(-5).reverse().forEach(lesson => {
-        const card = document.createElement('div');
-        card.className = `card lesson ${lesson.type}`;
-        
-        const typeEmoji = lesson.type === 'success' ? '🟢' : '🔴';
-        
-        card.innerHTML = `
-          <div style="font-weight: bold; margin-bottom: 4px;">${typeEmoji} ${lesson.type.toUpperCase()}</div>
-          <div class="lesson-agent">${lesson.agent}</div>
-          <div class="lesson-text">${lesson.lesson}</div>
-          <div class="timestamp">${new Date(lesson.timestamp).toLocaleString()}</div>
-        `;
-        
-        grid.appendChild(card);
-      });
-    }
-    
-    // Render hard stops
-    function renderHardStops() {
-      const grid = document.getElementById('controlGrid');
-      
-      const pending = state.hardStops.filter(hs => !hs.resolved);
-      
-      if (pending.length === 0) {
-        grid.innerHTML = '<div class="card" style="grid-column: 1/-1;"><p style="color: #00ffaa;">✅ No decisions pending</p></div>';
-        return;
-      }
-      
-      grid.innerHTML = '';
-      pending.forEach(hs => {
-        const card = document.createElement('div');
-        card.className = 'card hard-stops-section';
-        
-        let buttonsHtml = '';
-        if (hs.options) {
-          buttonsHtml = '<div class="button-group" style="margin-top: 10px;">';
-          hs.options.forEach(opt => {
-            buttonsHtml += `<button class="${opt === 'approve' ? 'success' : ''}" onclick="submitHardStopDecision('${hs.id}', '${opt}')">${opt.toUpperCase()}</button>`;
-          });
-          buttonsHtml += '</div>';
-        }
-        
-        card.innerHTML = `
-          <div class="hard-stop">
-            <div class="hard-stop-title">⚠️ ${hs.type}</div>
-            <div class="hard-stop-message">${hs.message}</div>
-            <div style="font-size: 10px; color: #888; margin-bottom: 10px;">Agent: <strong>${hs.agent.toUpperCase()}</strong></div>
-            ${buttonsHtml}
+          <div style="margin-top:8px;display:flex;gap:8px;">
+            <span class="badge ${task.priority}">${task.priority}</span>
+            <select onchange="updateTask('${task.id}', 'status', this.value)" style="width:auto;padding:4px;margin:0;">
+              <option value="todo" ${task.status === 'todo' ? 'selected' : ''}>Todo</option>
+              <option value="in_progress" ${task.status === 'in_progress' ? 'selected' : ''}>In Progress</option>
+              <option value="done" ${task.status === 'done' ? 'selected' : ''}>Done</option>
+            </select>
           </div>
-        `;
-        
-        grid.appendChild(card);
+        </div>
+      `).join('');
+    }
+    
+    function updateTask(id, field, value) {
+      fetch(`/api/tasks-board/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [field]: value })
       });
     }
     
-    // Update header statistics
-    function updateHeaderStats() {
-      const agentsOnline = Object.values(state.agents).filter(a => a.status !== 'offline').length;
-      const tasksActive = Object.values(state.tasks).filter(t => t.progress < 1).length;
-      const alertsCount = state.hardStops.filter(hs => !hs.resolved).length;
-      
-      document.getElementById('agentCount').textContent = `Agents: ${agentsOnline}/${Object.keys(state.agents).length}`;
-      document.getElementById('taskCount').textContent = `Tasks: ${tasksActive}`;
-      document.getElementById('alertCount').textContent = `Alerts: ${alertsCount}`;
-    }
-    
-    // Tab switching
-    function switchTab(tabName) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      
-      event.target.classList.add('active');
-      document.getElementById(tabName).classList.add('active');
-    }
-    
-    // Submit hard stop decision
-    async function submitHardStopDecision(id, decision) {
-      try {
-        const response = await fetch(`/api/hard_stops/${id}/decision`, {
+    function showAddTask() {
+      const title = prompt('Task title:');
+      if (title) {
+        fetch('/api/tasks-board', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ decision, reason: 'User decision via Mission Control' })
+          body: JSON.stringify({ title, status: 'todo', owner: 'James', priority: 'medium' })
         });
-        
-        if (response.ok) {
-          const data = await response.json();
-          console.log('Hard stop resolved:', data);
-          loadInitialData();
-        }
-      } catch (e) {
-        console.error('Failed to submit decision:', e);
       }
     }
     
-    // Update status indicator
-    function updateStatusIndicator(status, text) {
-      document.getElementById('systemStatus').className = `status-dot ${status}`;
-      document.getElementById('statusText').textContent = text;
+    // Content Pipeline
+    let currentPipelineFilter = 'all';
+    
+    function filterPipeline(stage) {
+      currentPipelineFilter = stage;
+      document.querySelectorAll('.stage').forEach(s => s.classList.remove('active'));
+      event.target.classList.add('active');
+      renderPipeline();
     }
     
-    // Start on load
-    window.addEventListener('DOMContentLoaded', () => {
-      connectWebSocket();
-    });
+    function renderPipeline() {
+      const container = document.getElementById('pipelineGrid');
+      let items = state.content_pipeline || [];
+      
+      if (currentPipelineFilter !== 'all') {
+        items = items.filter(i => i.stage === currentPipelineFilter);
+      }
+      
+      if (items.length === 0) {
+        container.innerHTML = '<p style="color:#888">No content in pipeline.</p>';
+        return;
+      }
+      
+      container.innerHTML = items.map(item => `
+        <div class="card">
+          <div class="card-title">${item.title}</div>
+          <span class="badge ${item.stage}">${item.stage}</span>
+          <div style="font-size:11px;color:#888;margin-top:8px;">
+            Platform: ${item.platform} | Assignee: ${item.assignee}
+          </div>
+          <select onchange="updatePipeline('${item.id}', 'stage', this.value)" style="width:auto;padding:4px;margin-top:8px;">
+            <option value="idea" ${item.stage === 'idea' ? 'selected' : ''}>Idea</option>
+            <option value="script" ${item.stage === 'script' ? 'selected' : ''}>Script</option>
+            <option value="thumbnail" ${item.stage === 'thumbnail' ? 'selected' : ''}>Thumbnail</option>
+            <option value="filming" ${item.stage === 'filming' ? 'selected' : ''}>Filming</option>
+            <option value="done" ${item.stage === 'done' ? 'selected' : ''}>Done</option>
+          </select>
+        </div>
+      `).join('');
+    }
+    
+    function updatePipeline(id, field, value) {
+      fetch(`/api/content-pipeline/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [field]: value })
+      });
+    }
+    
+    // Calendar
+    function renderCalendar() {
+      const container = document.getElementById('calendarGrid');
+      const events = state.calendar || [];
+      
+      if (events.length === 0) {
+        container.innerHTML = '<p style="color:#888">No calendar events.</p>';
+        return;
+      }
+      
+      container.innerHTML = events.map(event => `
+        <div class="calendar-event">
+          <div class="calendar-time">${formatDate(event.time)}</div>
+          <div style="flex:1;">
+            <div style="font-weight:bold;">${event.title}</div>
+            <div style="font-size:11px;color:#888;">${event.owner !== 'all' ? 'Owner: ' + event.owner : ''}</div>
+          </div>
+          ${event.type === 'recurring' ? '<span class="calendar-recurring">RECURRING</span>' : ''}
+        </div>
+      `).join('');
+    }
+    
+    function showAddEvent() {
+      const title = prompt('Event title:');
+      const time = prompt('Time (ISO format, e.g. 2026-02-20T09:00:00Z):');
+      if (title && time) {
+        fetch('/api/calendar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ title, time, type: 'one-time', owner: 'James' })
+        });
+      }
+    }
+    
+    // Team
+    function renderTeam() {
+      const container = document.getElementById('teamGrid');
+      const team = state.team || [];
+      
+      container.innerHTML = team.map(member => `
+        <div class="team-member">
+          <div class="team-avatar">${member.avatar}</div>
+          <div class="team-info">
+            <div class="team-name">${member.name}</div>
+            <div class="team-role">${member.role}</div>
+            <div class="team-status"><span class="status-dot ${member.status === 'working' ? 'working' : 'idle'}"></span>${member.status}</div>
+          </div>
+          <div style="text-align:right;">
+            <select onchange="updateTeam('${member.id}', 'status', this.value)" style="width:auto;padding:4px;">
+              <option value="working" ${member.status === 'working' ? 'selected' : ''}>Working</option>
+              <option value="idle" ${member.status === 'idle' ? 'selected' : ''}>Idle</option>
+            </select>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function updateTeam(id, field, value) {
+      fetch(`/api/team/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ [field]: value })
+      });
+    }
+    
+    // Office
+    function renderOffice() {
+      const container = document.getElementById('officeGrid');
+      const office = state.office || [];
+      
+      container.innerHTML = office.map(station => `
+        <div class="workstation ${station.status}">
+          <div class="station-icon">🖥️</div>
+          <div class="station-name">${station.id}</div>
+          <div class="computer ${station.computer_on ? 'on' : 'off'}"></div>
+          <div class="station-task">${station.current_task || 'Idle'}</div>
+          <select onchange="updateOffice('${station.id}', 'status', this.value)" style="width:auto;padding:4px;margin-top:8px;">
+            <option value="working" ${station.status === 'working' ? 'selected' : ''}>Working</option>
+            <option value="idle" ${station.status === 'idle' ? 'selected' : ''}>Idle</option>
+          </select>
+        </div>
+      `).join('');
+    }
+    
+    function updateOffice(id, field, value) {
+      fetch(`/api/office/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          [field]: value,
+          computer_on: value === 'working'
+        })
+      });
+    }
+    
+    // Memories
+    function renderMemories() {
+      const container = document.getElementById('memoriesGrid');
+      const memories = state.memories || [];
+      
+      if (memories.length === 0) {
+        container.innerHTML = '<p style="color:#888">No memories yet.</p>';
+        return;
+      }
+      
+      container.innerHTML = memories.map(mem => `
+        <div class="memory-item ${mem.type}">
+          <div class="memory-title">${mem.title}</div>
+          <div class="memory-content">${mem.content}</div>
+          <div class="memory-meta">${new Date(mem.timestamp).toLocaleString()} | ${mem.type}</div>
+        </div>
+      `).join('');
+    }
+    
+    function searchMemories() {
+      const query = document.getElementById('memorySearch').value;
+      fetch(`/api/memories${query ? '?q=' + encodeURIComponent(query) : ''}`)
+        .then(r => r.json())
+        .then(data => {
+          state.memories = data.memories;
+          renderMemories();
+        });
+    }
+    
+    // Utils
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add('active');
+      document.getElementById(tab).classList.add('active');
+    }
+    
+    function formatUptime(ms) {
+      if (!ms) return '--';
+      const seconds = Math.floor(ms / 1000);
+      const minutes = Math.floor(seconds / 60);
+      const hours = Math.floor(minutes / 60);
+      const days = Math.floor(hours / 24);
+      if (days > 0) return `${days}d ${hours % 24}h`;
+      if (hours > 0) return `${hours}h ${minutes % 60}m`;
+      return `${minutes}m`;
+    }
+    
+    function formatDate(iso) {
+      const d = new Date(iso);
+      return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    
+    // Init
+    loadData();
+    connect();
   </script>
 </body>
 </html>
