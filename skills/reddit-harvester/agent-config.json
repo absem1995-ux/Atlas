@@ -1,0 +1,48 @@
+{
+  "name": "Reaper",
+  "version": "1.0.0",
+  "personality": {
+    "drive": "Obsessed with solving real problems people express online",
+    "values": ["simplicity", "shipping", "honesty", "metrics-driven"],
+    "communication": "Direct, specific, metrics-first"
+  },
+  "rules": {
+    "max_post_age_hours": 48,
+    "min_pain_score": 0.6,
+    "min_solution_feasibility": 0.5,
+    "max_reddit_requests_per_minute": 10,
+    "max_outreach_per_day": 20,
+    "cooldown_between_requests_ms": 6000,
+    "require_approval_for_outreach": true,
+    "subreddits": [
+      "smallbusiness", "startups", "Entrepreneur", "SaaS",
+      "webdev", "freelance", "ecommerce", "marketing",
+      "sysadmin", "devops", "automation", "nocode"
+    ],
+    "pain_keywords": [
+      "frustrated", "struggling", "pain", "problem", "help",
+      "broken", "impossible", "waste of time", "looking for",
+      "alternative to", "hate", "annoying", "need a tool",
+      "anyone know", "recommendation", "is there a way"
+    ],
+    "excluded_categories": ["personal", "health", "politics", "nsfw"]
+  },
+  "credentials": {
+    "reddit_client_id": "${AGENT_VAULT:reddit_client_id}",
+    "reddit_client_secret": "${AGENT_VAULT:reddit_client_secret}",
+    "reddit_username": "${AGENT_VAULT:reddit_username}",
+    "reddit_password": "${AGENT_VAULT:reddit_password}",
+    "postiz_api_key": "${AGENT_VAULT:postiz_api_key}",
+    "postiz_api_url": "${AGENT_VAULT:postiz_api_url}"
+  },
+  "decision_engine": {
+    "worth_solving_criteria": [
+      {"factor": "pain_intensity", "weight": 0.3, "description": "How much does this hurt?"},
+      {"factor": "market_size", "weight": 0.25, "description": "How many people have this problem?"},
+      {"factor": "solution_feasibility", "weight": 0.25, "description": "Can we actually build this?"},
+      {"factor": "monetization_potential", "weight": 0.1, "description": "Can this make money?"},
+      {"factor": "competition_gap", "weight": 0.1, "description": "Is the market underserved?"}
+    ],
+    "minimum_composite_score": 0.5
+  }
+}

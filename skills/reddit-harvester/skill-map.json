@@ -1,0 +1,70 @@
+{
+  "id": "reddit-harvester",
+  "name": "Reddit Pain-Point Harvester",
+  "version": "1.0.0",
+  "description": "Autonomous system that finds business problems on Reddit and designs solutions",
+  "entry_point": "orchestrator",
+  "pipeline": [
+    {
+      "id": "reddit-reader",
+      "path": "skills/reddit-reader/",
+      "input": "subreddit list + config",
+      "output": "raw posts array",
+      "next": "pain-detector"
+    },
+    {
+      "id": "pain-detector",
+      "path": "skills/pain-detector/",
+      "input": "raw posts array",
+      "output": "scored pain points",
+      "next": "solution-designer"
+    },
+    {
+      "id": "solution-designer",
+      "path": "skills/solution-designer/",
+      "input": "scored pain points",
+      "output": "solution proposals with feasibility",
+      "next": ["skill-builder", "message-crafter"]
+    },
+    {
+      "id": "skill-builder",
+      "path": "skills/skill-builder/",
+      "input": "solution proposal",
+      "output": "built skill package",
+      "next": "tester"
+    },
+    {
+      "id": "message-crafter",
+      "path": "skills/message-crafter/",
+      "input": "solution proposal + original post",
+      "output": "outreach message draft",
+      "next": "postiz-connector"
+    },
+    {
+      "id": "postiz-connector",
+      "path": "skills/postiz-connector/",
+      "input": "outreach message",
+      "output": "scheduled post confirmation",
+      "next": "learner"
+    },
+    {
+      "id": "tester",
+      "path": "skills/tester/",
+      "input": "built skill",
+      "output": "test results + quality score",
+      "next": "learner"
+    },
+    {
+      "id": "learner",
+      "path": "skills/learner/",
+      "input": "all pipeline outputs + metrics",
+      "output": "updated patterns + config adjustments",
+      "next": null
+    }
+  ],
+  "schedule": {
+    "scan_interval_minutes": 60,
+    "report_interval_minutes": 60,
+    "learning_interval_minutes": 360
+  }
+}
