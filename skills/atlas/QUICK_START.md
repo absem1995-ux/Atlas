@@ -1,5 +1,7 @@
 # QUICK_START.md — 5-Minute Setup
 
+> **First time installing?** Start with `LAUNCH_CHECKLIST.md` for step-by-step setup.
+
 ## Step 1: Install (1 min)
 
 ```bash
