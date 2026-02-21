@@ -1,0 +1,42 @@
+{
+  "lastPosted": "2026-02-21",
+  "items": [
+    {
+      "title": "Agent Harnesses: The New Control Plane",
+      "summary": "Gartner predicts 20 AI agents per enterprise by 2027 — but 73% are ungoverned shadow agents. The engineering challenge of 2026 is controlling agents, not building them.",
+      "why": "Agent sprawl is the new technical debt. Without harnesses, agents make autonomous decisions without oversight.",
+      "takeaway": "Start thinking harness-first, not agent-first."
+    },
+    {
+      "title": "Perplexity's Model Council",
+      "summary": "Multi-model orchestration solving the problem that no single model is best at everything.",
+      "why": "Different tasks (coding, research, creative) have different best models.",
+      "takeaway": "Build routing logic that picks the right model for each task."
+    },
+    {
+      "title": "Agent Skills Security Risks",
+      "summary": "341 malicious skills on ClawHub distributing macOS malware; 7.1% of skills leak hardcoded API keys.",
+      "why": "Skills are powerful but dangerous when unvetted.",
+      "takeaway": "Audit every skill before deployment. Never copy code with embedded secrets."
+    },
+    {
+      "title": "Agentic AI Reshaping Engineering Workflows",
+      "summary": "AI moving from coding assistant to autonomous team member across the entire SDLC.",
+      "why": "Weeks of coordination compressing into continuous workflows.",
+      "takeaway": "Design agents as team members, not tools."
+    },
+    {
+      "title": "Small-Scale AI for Developing World",
+      "summary": "World Bank says the real AI revolution is small, low-cost tools solving local problems.",
+      "why": "Counter-narrative to bigger-is-better trend.",
+      "takeaway": "Sometimes the best AI solution is the simplest one."
+    }
+  ],
+  "experiment": "Build a simple agent harness that enforces cost budget and tool allowlist",
+  "setupReview": {
+    "strengths": ["Skill-based tools", "Haiku default + Sonnet for complexity", "Memory strategy in place"],
+    "gaps": ["No automated security scanning for skills", "Missing explicit cost tracking for agent runs"]
+  },
+  "status": "delivered_to_telegram",
+  "error": "Telegram channel @ai-self-improvement-digest not found - bot may not be in channel or channel doesn't exist"
+}
