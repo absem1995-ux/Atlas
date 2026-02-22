@@ -1,0 +1,9 @@
+{
+  "ownerId": "user",
+  "slug": "tweet-reader",
+  "version": "0.1.0",
+  "name": "Tweet Reader",
+  "description": "Read and extract text from X (Twitter) tweets without needing a Twitter account",
+  "createdAt": 1739916000000,
+  "status": "production"
+}

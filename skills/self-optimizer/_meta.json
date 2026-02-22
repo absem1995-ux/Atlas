@@ -1,0 +1,21 @@
+{
+  "name": "self-optimizer",
+  "version": "1.0.0",
+  "description": "Agent self-optimization through structured lesson capture and continuous improvement",
+  "keywords": [
+    "agent",
+    "self-optimization",
+    "lessons-learned",
+    "continuous-improvement",
+    "operational-excellence",
+    "multi-agent",
+    "governance"
+  ],
+  "author": "James",
+  "license": "MIT",
+  "tags": ["agent", "learning", "optimization", "improvement"],
+  "created": "2026-02-18",
+  "updated": "2026-02-18",
+  "status": "production",
+  "tier": "core"
+}

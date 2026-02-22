@@ -1,0 +1,14 @@
+{
+  "name": "sentinel-agent",
+  "version": "1.0.0",
+  "description": "Support and escalation agent - ticket management, triage, SLA monitoring",
+  "main": "scripts/sentinel-ticket-intake.js",
+  "scripts": {
+    "intake": "node scripts/sentinel-ticket-intake.js",
+    "triage": "node scripts/sentinel-triage-engine.js",
+    "escalate": "node scripts/sentinel-escalation-router.js"
+  },
+  "keywords": ["agent", "support", "ticket", "escalation"],
+  "author": "James",
+  "license": "MIT"
+}

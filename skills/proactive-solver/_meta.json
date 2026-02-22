@@ -1,0 +1,51 @@
+{
+  "id": "proactive-solver",
+  "name": "Proactive Problem Solver Framework",
+  "version": "1.0.0",
+  "description": "Framework for solving problems without asking for input. When blocked, automatically find + implement best solution.",
+  "author": "James",
+  "created": "2026-02-19T17:50:00Z",
+  "status": "production",
+  "keywords": [
+    "problem-solving",
+    "automation",
+    "proactive",
+    "framework",
+    "decision-making"
+  ],
+  "features": [
+    "Automatic problem classification",
+    "Multi-approach solution generation (3+ alternatives minimum)",
+    "Solution ranking by feasibility + effectiveness",
+    "Automatic implementation of best approach",
+    "Learning system for pattern reuse",
+    "Failure logging and adaptation"
+  ],
+  "problem_categories": [
+    "Web Access Blocked",
+    "API Rate Limiting",
+    "Data Extraction",
+    "Service Unavailable",
+    "Format Incompatibility",
+    "Tool Missing",
+    "Permission Denied",
+    "Timeout/Slow Response"
+  ],
+  "mindset": {
+    "old": "I hit a wall. Let me ask.",
+    "new": "I hit a wall. Let me solve it."
+  },
+  "examples": {
+    "web_access": {
+      "problem": "Can't access X tweet (JavaScript + bot detection)",
+      "approaches": [
+        "Screenshot + OCR (Playwright)",
+        "Nitter mirror (no auth required)",
+        "Wayback Machine (cached content)",
+        "Search for quotes (community discussion)",
+        "User agent rotation (bypass detection)"
+      ],
+      "best_first": true
+    }
+  }
+}

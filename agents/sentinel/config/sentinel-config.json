@@ -1,0 +1,58 @@
+{
+  "agent": {
+    "name": "Sentinel",
+    "role": "support",
+    "version": "1.0.0",
+    "mockMode": true
+  },
+  "channels": {
+    "email": true,
+    "chat": true,
+    "form": true
+  },
+  "triage": {
+    "categories": [
+      "account_access",
+      "technical_issue",
+      "billing",
+      "feature_request",
+      "bug_report"
+    ],
+    "severities": ["critical", "high", "medium", "low"]
+  },
+  "sla": {
+    "critical": {
+      "firstResponse": 1,
+      "resolution": 2
+    },
+    "high": {
+      "firstResponse": 4,
+      "resolution": 8
+    },
+    "medium": {
+      "firstResponse": 24,
+      "resolution": 72
+    },
+    "low": {
+      "firstResponse": 48,
+      "resolution": 168
+    }
+  },
+  "escalation": {
+    "tier0": "automated",
+    "tier1": "support_team",
+    "tier2": "specialists",
+    "tier3": "executives"
+  },
+  "feedback": {
+    "sendSurvey": true,
+    "surveyDelay": 3600000,
+    "trackCsat": true,
+    "trackNps": true
+  },
+  "limits": {
+    "maxTicketsPerDay": 500,
+    "escalationThreshold": 10,
+    "resolutionRateTarget": 0.9
+  }
+}

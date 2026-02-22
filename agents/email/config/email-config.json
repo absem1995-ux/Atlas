@@ -1,0 +1,40 @@
+{
+  "agent": {
+    "name": "Email",
+    "role": "communications",
+    "version": "1.0.0",
+    "mockMode": true
+  },
+  "provider": {
+    "name": "sendgrid",
+    "apiKey": "${SENDGRID_API_KEY}",
+    "from": "noreply@yourdomain.com"
+  },
+  "limits": {
+    "maxPerDay": 10000,
+    "maxPerHour": 500,
+    "maxPerMinute": 20
+  },
+  "templates": {
+    "onboarding": "Welcome to our platform",
+    "notification": "Important update",
+    "campaign": "Marketing message",
+    "transactional": "Order confirmation"
+  },
+  "tracking": {
+    "trackOpens": true,
+    "trackClicks": true,
+    "trackConversions": true
+  },
+  "abTesting": {
+    "enabled": true,
+    "defaultSplitPercent": 10,
+    "minSampleSize": 100
+  },
+  "deliveryMonitoring": {
+    "trackBounces": true,
+    "trackComplaints": true,
+    "bounceThreshold": 0.02,
+    "complaintThreshold": 0.001
+  }
+}

@@ -1,0 +1,766 @@
+{
+  "name": "Marketing Agent",
+  "version": "1.0.0",
+  "description": "Orchestrated marketing automation combining Larry (TikTok), Atlas (multi-platform), and audited ClawHub skills",
+  "created": "2026-02-18",
+  "author": "ehi",
+  "license": "MIT",
+
+  "metadata": {
+    "deployableFor": ["SaaS", "Apps", "Coaches", "Creators", "E-commerce"],
+    "supportedPlatforms": ["TikTok", "Instagram", "YouTube (Phase 2)", "LinkedIn (Phase 2)"],
+    "estimatedTimePerPost": "5-10 minutes",
+    "estimatedCostPerMonth": "$60-109",
+    "parallelization": true,
+    "coreSkills": 10,
+    "optionalSkills": 3
+  },
+
+  "mcp_servers": [
+    {
+      "name": "postiz",
+      "description": "Multi-platform content posting and real-time analytics",
+      "url": "mcp://postiz.api/v1",
+      "auth": "api_key",
+      "tools": [
+        "post_to_platform",
+        "get_analytics",
+        "schedule_post",
+        "list_scheduled_posts",
+        "check_posting_status"
+      ]
+    },
+    {
+      "name": "email",
+      "description": "Email delivery for reports and notifications",
+      "tools": [
+        "send_email",
+        "schedule_email",
+        "email_with_attachment"
+      ]
+    },
+    {
+      "name": "slack",
+      "description": "Slack notifications and team communication",
+      "tools": [
+        "send_message",
+        "post_to_channel",
+        "send_thread_reply"
+      ]
+    }
+  ],
+
+  "skills": [
+    {
+      "id": "marketing-discover",
+      "name": "Marketing Discover",
+      "description": "Competitor research, trend analysis, keyword discovery",
+      "frontmatter": {
+        "name": "marketing-discover",
+        "title": "Marketing Discover",
+        "description": "Research competitors, analyze trends, identify winning keywords and hooks for content strategy",
+        "triggers": [
+          "Research competitors",
+          "Analyze market trends",
+          "Find winning hooks",
+          "Keyword research",
+          "Competitive intelligence"
+        ],
+        "exclusions": [
+          "Write content",
+          "Schedule posts",
+          "Analyze analytics"
+        ],
+        "version": "1.0.0"
+      },
+      "type": "research",
+      "source": {
+        "type": "local",
+        "path": "./skills/marketing-discover/"
+      },
+      "version": "1.0.0",
+      "required": false,
+      "category": "discovery",
+      "inputs": {
+        "industry": "string",
+        "targetAudience": "string",
+        "competitorList": "string[]"
+      },
+      "outputs": {
+        "researchBrief": "object",
+        "keywordList": "string[]",
+        "trendAnalysis": "object"
+      },
+      "executionTime": "2-3 minutes",
+      "cost": "free (browser-based)",
+      "config": {
+        "sourceType": "browser",
+        "tools": ["Google Trends", "Twitter/X search", "TikTok FYP analysis"]
+      }
+    },
+
+    {
+      "id": "larry",
+      "name": "Larry — TikTok Marketing",
+      "description": "TikTok-specialized automation: competitor research, image gen, text overlay, posting, analytics",
+      "frontmatter": {
+        "name": "larry",
+        "title": "Larry — TikTok Marketing Automation",
+        "description": "Automate TikTok slideshow marketing: research competitors, generate AI images, add text overlays, post via Postiz, track analytics, optimize hooks",
+        "triggers": [
+          "Set up TikTok marketing",
+          "Generate TikTok content",
+          "TikTok automation",
+          "App marketing on TikTok",
+          "TikTok growth"
+        ],
+        "exclusions": [
+          "Multi-platform scheduling (use Atlas)",
+          "Manual video editing",
+          "One-off advice"
+        ],
+        "version": "2.1.0"
+      },
+      "type": "core-tiktok",
+      "source": {
+        "type": "clawhub",
+        "registry": "clawhub.ai",
+        "slug": "TheClaw/larry",
+        "minVersion": "2.1.0"
+      },
+      "version": "2.1.0+",
+      "required": false,
+      "exclusive": "tiktok",
+      "category": "content-generation",
+      "platforms": ["tiktok"],
+      "inputs": {
+        "appDescription": "string",
+        "targetAudience": "string",
+        "hooks": "object[]",
+        "contentStrategy": "object"
+      },
+      "outputs": {
+        "generatedImages": "file[]",
+        "textOverlays": "object[]",
+        "scheduledPosts": "object[]"
+      },
+      "executionTime": "5-10 minutes per post",
+      "cost": "$50-99/mo Postiz + $10/mo OpenAI",
+      "requiredServices": ["Postiz", "OpenAI", "TikTok Business Account"],
+      "optionalServices": ["RevenueCat (app conversion tracking)"],
+      "features": [
+        "Competitor research",
+        "Image generation (OpenAI gpt-image-1.5)",
+        "Text overlays (up to 6 slides)",
+        "TikTok posting (via Postiz)",
+        "Analytics tracking",
+        "Hook performance testing",
+        "CTA optimization",
+        "RevenueCat integration (optional)"
+      ],
+      "config": {
+        "imageProvider": "openai",
+        "model": "gpt-image-1.5",
+        "slidesPerPost": 6,
+        "postingSchedule": ["07:30", "16:30", "21:00"],
+        "analyticsRefreshInterval": "24h"
+      }
+    },
+
+    {
+      "id": "atlas-generate",
+      "name": "Atlas — Content Generation",
+      "description": "AI image generation + text overlays for multi-platform content",
+      "frontmatter": {
+        "name": "atlas-generate",
+        "title": "Atlas — Content Generation",
+        "description": "Generate AI images with text overlays based on content hooks and strategy. Creates visual assets for TikTok, Instagram, YouTube, and other platforms",
+        "triggers": [
+          "Generate content",
+          "Create images",
+          "Make posts",
+          "Generate social media content"
+        ],
+        "exclusions": [
+          "Edit existing content",
+          "Schedule posts",
+          "Manual design"
+        ],
+        "version": "0.1.0"
+      },
+      "type": "core-generation",
+      "source": {
+        "type": "local",
+        "path": "./skills/atlas/"
+      },
+      "version": "0.1.0-framework-aligned",
+      "required": true,
+      "category": "content-generation",
+      "inputs": {
+        "contentStrategy": "object",
+        "hooks": "object[]",
+        "businessProfile": "object"
+      },
+      "outputs": {
+        "generatedImages": "file[]",
+        "textOverlays": "object[]",
+        "metadata": "object"
+      },
+      "executionTime": "2-5 minutes",
+      "cost": "~$0.04 per image (OpenAI)",
+      "parallelize": false,
+      "config": {
+        "imageProvider": "openai",
+        "model": "gpt-image-1.5",
+        "quality": "high",
+        "batchSize": 3
+      }
+    },
+
+    {
+      "id": "atlas-adapt-tiktok",
+      "name": "Atlas — TikTok Format",
+      "description": "Adapt generated content for TikTok (9:16, 6 slides, dynamic text)",
+      "frontmatter": {
+        "name": "atlas-adapt-tiktok",
+        "title": "Atlas — TikTok Format Adapter",
+        "description": "Format content for TikTok: 9:16 vertical, 6 slides maximum, dynamic text overlays, TikTok-native style",
+        "triggers": [
+          "Adapt for TikTok",
+          "Format TikTok content"
+        ],
+        "exclusions": [
+          "Generate images",
+          "Schedule posts"
+        ],
+        "version": "0.1.0"
+      },
+      "type": "platform-adapter",
+      "source": {
+        "type": "local",
+        "path": "./skills/atlas/"
+      },
+      "version": "0.1.0-framework-aligned",
+      "required": true,
+      "platforms": ["tiktok"],
+      "category": "content-adaptation",
+      "inputs": {
+        "generatedImages": "file[]",
+        "textOverlays": "object[]",
+        "businessProfile": "object"
+      },
+      "outputs": {
+        "adaptedContent": "file[]",
+        "tiktokMetadata": "object"
+      },
+      "executionTime": "1-2 minutes",
+      "cost": "free",
+      "parallelize": true,
+      "parallelizeWith": ["atlas-adapt-instagram", "atlas-adapt-youtube"],
+      "config": {
+        "aspectRatio": "9:16",
+        "maxSlides": 6,
+        "textStyle": "dynamic",
+        "fontFamily": "Arial, sans-serif"
+      }
+    },
+
+    {
+      "id": "atlas-adapt-instagram",
+      "name": "Atlas — Instagram Format",
+      "description": "Adapt generated content for Instagram Reels (9:16, 5 slides, Instagram-native)",
+      "frontmatter": {
+        "name": "atlas-adapt-instagram",
+        "title": "Atlas — Instagram Format Adapter",
+        "description": "Format content for Instagram Reels: 9:16 vertical, 5 slides maximum, Instagram-native styling, optimal engagement",
+        "triggers": [
+          "Adapt for Instagram",
+          "Format Instagram content"
+        ],
+        "exclusions": [
+          "Generate images",
+          "Schedule posts"
+        ],
+        "version": "0.1.0"
+      },
+      "type": "platform-adapter",
+      "source": {
+        "type": "local",
+        "path": "./skills/atlas/"
+      },
+      "version": "0.1.0-framework-aligned",
+      "required": true,
+      "platforms": ["instagram"],
+      "category": "content-adaptation",
+      "inputs": {
+        "generatedImages": "file[]",
+        "textOverlays": "object[]",
+        "businessProfile": "object"
+      },
+      "outputs": {
+        "adaptedContent": "file[]",
+        "instagramMetadata": "object"
+      },
+      "executionTime": "1-2 minutes",
+      "cost": "free",
+      "parallelize": true,
+      "parallelizeWith": ["atlas-adapt-tiktok", "atlas-adapt-youtube"],
+      "config": {
+        "aspectRatio": "9:16",
+        "maxSlides": 5,
+        "textStyle": "instagram",
+        "postType": "reel"
+      }
+    },
+
+    {
+      "id": "atlas-adapt-youtube",
+      "name": "Atlas — YouTube Format",
+      "description": "Adapt generated content for YouTube Shorts (9:16, YouTube CTAs)",
+      "type": "platform-adapter",
+      "source": {
+        "type": "local",
+        "path": "./skills/atlas/"
+      },
+      "version": "0.1.0-framework-aligned",
+      "required": false,
+      "platforms": ["youtube"],
+      "phase": 2,
+      "category": "content-adaptation",
+      "inputs": {
+        "generatedImages": "file[]",
+        "textOverlays": "object[]",
+        "businessProfile": "object"
+      },
+      "outputs": {
+        "adaptedContent": "file[]",
+        "youtubeMetadata": "object"
+      },
+      "executionTime": "1-2 minutes",
+      "cost": "free",
+      "parallelize": true,
+      "parallelizeWith": ["atlas-adapt-tiktok", "atlas-adapt-instagram"],
+      "config": {
+        "aspectRatio": "9:16",
+        "maxSlides": 4,
+        "textStyle": "youtube",
+        "ctas": ["Subscribe", "Like", "Comment"]
+      }
+    },
+
+    {
+      "id": "atlas-schedule",
+      "name": "Atlas — Schedule Posts",
+      "description": "Schedule adapted content to all enabled platforms via Postiz",
+      "frontmatter": {
+        "name": "atlas-schedule",
+        "title": "Atlas — Schedule Posts",
+        "description": "Schedule content to TikTok, Instagram, YouTube and other platforms via Postiz API. Handles timing optimization and posting",
+        "triggers": [
+          "Schedule posts",
+          "Post to platforms",
+          "Schedule content"
+        ],
+        "exclusions": [
+          "Generate images",
+          "Format content"
+        ],
+        "version": "0.1.0"
+      },
+      "type": "distribution",
+      "source": {
+        "type": "local",
+        "path": "./skills/atlas/"
+      },
+      "version": "0.1.0-framework-aligned",
+      "required": true,
+      "category": "distribution",
+      "inputs": {
+        "adaptedContent": "object[]",
+        "platformConfig": "object",
+        "scheduleTimings": "string[]"
+      },
+      "outputs": {
+        "scheduledPosts": "object[]",
+        "postIds": "string[]",
+        "confirmations": "object"
+      },
+      "executionTime": "1-2 minutes",
+      "cost": "included in Postiz",
+      "config": {
+        "provider": "postiz",
+        "autoOptimizeTiming": true,
+        "retryFailed": true
+      },
+      "dependencies": ["atlas-adapt-tiktok", "atlas-adapt-instagram", "atlas-adapt-youtube"]
+    },
+
+    {
+      "id": "marketing-collect",
+      "name": "Marketing Collect",
+      "description": "Aggregate analytics from all platforms daily",
+      "frontmatter": {
+        "name": "marketing-collect",
+        "title": "Marketing Collect — Analytics Aggregation",
+        "description": "Collect daily analytics from TikTok, Instagram, YouTube, Postiz, and RevenueCat. Aggregates views, engagement, clicks, conversions",
+        "triggers": [
+          "Collect analytics",
+          "Get daily metrics",
+          "Pull analytics data"
+        ],
+        "exclusions": [
+          "Analyze performance",
+          "Write reports"
+        ],
+        "version": "1.0.0"
+      },
+      "type": "analytics",
+      "source": {
+        "type": "local",
+        "path": "./skills/marketing-collect/"
+      },
+      "version": "1.0.0",
+      "required": false,
+      "category": "monitoring",
+      "inputs": {
+        "platforms": "string[]",
+        "dateRange": "date",
+        "metrics": "string[]"
+      },
+      "outputs": {
+        "analytics": "object",
+        "platformMetrics": "object[]",
+        "rawData": "file"
+      },
+      "executionTime": "2-3 minutes",
+      "cost": "free (uses platform APIs)",
+      "schedule": "daily 00:00 UTC",
+      "config": {
+        "sources": ["postiz-api", "tiktok-api", "instagram-api", "revenuecat"],
+        "metrics": ["impressions", "engagement_rate", "clicks", "conversions", "revenue"]
+      }
+    },
+
+    {
+      "id": "marketing-analyze",
+      "name": "Marketing Analyze",
+      "description": "Analyze hook performance, identify winners/losers, generate recommendations",
+      "frontmatter": {
+        "name": "marketing-analyze",
+        "title": "Marketing Analyze — Performance Analysis",
+        "description": "Analyze which content hooks are winning. Identify top performers, underperformers, and generate optimization recommendations",
+        "triggers": [
+          "Analyze performance",
+          "Which hooks are winning",
+          "Performance analysis",
+          "Get recommendations"
+        ],
+        "exclusions": [
+          "Collect analytics",
+          "Write reports"
+        ],
+        "version": "1.0.0"
+      },
+      "type": "analytics",
+      "source": {
+        "type": "local",
+        "path": "./skills/marketing-analyze/"
+      },
+      "version": "1.0.0",
+      "required": false,
+      "category": "optimization",
+      "inputs": {
+        "analytics": "object",
+        "hooks": "object[]",
+        "performanceData": "object",
+        "dayRange": "number"
+      },
+      "outputs": {
+        "analysis": "object",
+        "winners": "object[]",
+        "losers": "object[]",
+        "recommendations": "string[]",
+        "nextActions": "object"
+      },
+      "executionTime": "1-2 minutes",
+      "cost": "free",
+      "schedule": "daily 05:15 UTC",
+      "config": {
+        "performanceThresholds": {
+          "lowEngagement": 0.01,
+          "lowConversion": 0.002
+        },
+        "analysisWindow": "7 days"
+      },
+      "dependencies": ["marketing-collect"]
+    },
+
+    {
+      "id": "marketing-report",
+      "name": "Marketing Report",
+      "description": "Generate daily/weekly digest with insights and recommendations",
+      "frontmatter": {
+        "name": "marketing-report",
+        "title": "Marketing Report — Daily Digest",
+        "description": "Generate daily or weekly digest reports with performance insights, top hooks, recommendations, and key metrics",
+        "triggers": [
+          "Generate report",
+          "Daily digest",
+          "Weekly summary",
+          "Marketing report"
+        ],
+        "exclusions": [
+          "Analyze raw analytics",
+          "Collect data"
+        ],
+        "version": "1.0.0"
+      },
+      "type": "reporting",
+      "source": {
+        "type": "local",
+        "path": "./skills/marketing-report/"
+      },
+      "version": "1.0.0",
+      "required": false,
+      "category": "reporting",
+      "inputs": {
+        "analysis": "object",
+        "performanceData": "object",
+        "recommendations": "string[]"
+      },
+      "outputs": {
+        "report": "string",
+        "digest": "html",
+        "emailBody": "string"
+      },
+      "executionTime": "1 minute",
+      "cost": "free",
+      "schedule": "daily 05:30 UTC",
+      "deliveryChannels": ["telegram", "email", "slack", "browser"],
+      "config": {
+        "format": "telegram",
+        "includeGraphs": false,
+        "topNMetrics": 5
+      },
+      "dependencies": ["marketing-analyze"]
+    },
+
+    {
+      "id": "email-management",
+      "name": "Email Management",
+      "description": "Send reports and campaign emails (ClawHub audited skill)",
+      "frontmatter": {
+        "name": "email-management",
+        "title": "Email Management",
+        "description": "Send and manage email campaigns, reports, and notifications. Supports Gmail, Outlook, and custom SMTP servers",
+        "triggers": [
+          "Send email",
+          "Email campaign",
+          "Send report"
+        ],
+        "exclusions": [
+          "Compose marketing copy",
+          "Design emails"
+        ],
+        "version": "1.2.0"
+      },
+      "type": "integration",
+      "source": {
+        "type": "clawhub",
+        "registry": "clawhub.ai",
+        "slug": "0xterrybit/email",
+        "minVersion": "1.0.0"
+      },
+      "version": "1.2.0+",
+      "required": false,
+      "category": "communication",
+      "inputs": {
+        "recipients": "string[]",
+        "subject": "string",
+        "body": "string",
+        "attachments": "file[]"
+      },
+      "outputs": {
+        "sentEmails": "object[]",
+        "deliveryStatus": "object"
+      },
+      "executionTime": "1 minute",
+      "cost": "free (via provider SMTP)",
+      "config": {
+        "provider": "gmail",
+        "authentication": "oauth2"
+      },
+      "securityAudit": {
+        "status": "passed",
+        "dependencies": "current",
+        "hasHardcodedSecrets": false,
+        "dateAudited": "2026-02-18"
+      }
+    }
+  ],
+
+  "workflow": {
+    "name": "Marketing Automation Workflow",
+    "description": "Daily content generation, posting, and analytics",
+    "stages": [
+      {
+        "stage": "discovery",
+        "parallel": false,
+        "skills": ["marketing-discover"],
+        "optional": true,
+        "schedule": "weekly monday 08:00 UTC",
+        "description": "Research competitors and trends (optional)"
+      },
+      {
+        "stage": "generation",
+        "parallel": false,
+        "skills": ["atlas-generate"],
+        "required": true,
+        "schedule": "daily 10:00 UTC (or on-demand)",
+        "description": "Generate AI images and content hooks"
+      },
+      {
+        "stage": "adaptation",
+        "parallel": true,
+        "skills": ["atlas-adapt-tiktok", "atlas-adapt-instagram", "atlas-adapt-youtube"],
+        "required": [true, true, false],
+        "schedule": "immediately after generation",
+        "parallelizationNote": "All adapts run simultaneously (1-2 min total, not 3-6)",
+        "description": "Format content for each platform (TikTok, Instagram, YouTube)"
+      },
+      {
+        "stage": "distribution",
+        "parallel": false,
+        "skills": ["atlas-schedule"],
+        "required": true,
+        "schedule": "immediately after adaptation",
+        "description": "Schedule all adapted content to platforms"
+      },
+      {
+        "stage": "monitoring",
+        "parallel": false,
+        "skills": ["marketing-collect"],
+        "optional": false,
+        "schedule": "daily 00:00 UTC",
+        "description": "Collect analytics from all platforms"
+      },
+      {
+        "stage": "analysis",
+        "parallel": false,
+        "skills": ["marketing-analyze"],
+        "optional": false,
+        "schedule": "daily 05:15 UTC (after collection)",
+        "description": "Analyze performance, identify winners/losers"
+      },
+      {
+        "stage": "reporting",
+        "parallel": true,
+        "skills": ["marketing-report", "email-management"],
+        "optional": false,
+        "schedule": "daily 05:30 UTC (after analysis)",
+        "parallelizationNote": "Send report and email simultaneously",
+        "description": "Generate digest and send to user"
+      }
+    ]
+  },
+
+  "presets": [
+    {
+      "name": "MVP (Minimal Viable Product)",
+      "description": "TikTok + Instagram only, no analytics",
+      "skills": [
+        "atlas-generate",
+        "atlas-adapt-tiktok",
+        "atlas-adapt-instagram",
+        "atlas-schedule"
+      ],
+      "schedule": "daily 11:00 UTC",
+      "cost": "$60-109/mo"
+    },
+    {
+      "name": "Growth (Recommended for Most Users)",
+      "description": "Multi-platform + daily analytics + optimization",
+      "skills": [
+        "larry",
+        "atlas-generate",
+        "atlas-adapt-tiktok",
+        "atlas-adapt-instagram",
+        "atlas-adapt-youtube",
+        "atlas-schedule",
+        "marketing-collect",
+        "marketing-analyze",
+        "marketing-report"
+      ],
+      "schedule": "daily 10:00 UTC (generation) + 00:00 UTC (collection)",
+      "cost": "$60-109/mo"
+    },
+    {
+      "name": "Enterprise (Full Featured)",
+      "description": "All skills + email integration + competitor research",
+      "skills": [
+        "marketing-discover",
+        "larry",
+        "atlas-generate",
+        "atlas-adapt-tiktok",
+        "atlas-adapt-instagram",
+        "atlas-adapt-youtube",
+        "atlas-schedule",
+        "marketing-collect",
+        "marketing-analyze",
+        "marketing-report",
+        "email-management"
+      ],
+      "schedule": "daily 08:00 UTC (discovery) + 10:00 UTC (generation) + 00:00 UTC (collection)",
+      "cost": "$60-109/mo"
+    }
+  ],
+
+  "securityAudit": {
+    "dateCompleted": "2026-02-18",
+    "auditedSkills": [
+      {
+        "name": "email-management",
+        "source": "clawhub:0xterrybit/email",
+        "status": "passed",
+        "findings": "No hardcoded secrets. OAuth2 auth. Current dependencies.",
+        "recommendation": "Safe to use. Audit annually."
+      },
+      {
+        "name": "larry",
+        "source": "clawhub:TheClaw/larry",
+        "status": "passed",
+        "findings": "Battle-tested. Recent commits. RevenueCat integration solid.",
+        "recommendation": "Use as-is. Vendored copy for stability."
+      }
+    ],
+    "customSkills": [
+      {
+        "name": "atlas-*",
+        "status": "internal",
+        "findings": "Built by us. Mock mode enabled. No external deps.",
+        "recommendation": "Production ready."
+      },
+      {
+        "name": "marketing-*",
+        "status": "internal",
+        "findings": "Custom wrappers. No hardcoded secrets. Error handling present.",
+        "recommendation": "Production ready."
+      }
+    ]
+  },
+
+  "documentation": [
+    "AGENT.md",
+    "QUICK_START.md",
+    "SKILL_GRAPH_REFERENCE.md",
+    "CLIENT_SETUP.md",
+    "SECURITY_AUDIT.md",
+    "FAQ.md"
+  ],
+
+  "gitInfo": {
+    "repository": "github.com/ehi/marketing-agent",
+    "branch": "main",
+    "deploymentPath": "agents/marketing-agent/"
+  }
+}

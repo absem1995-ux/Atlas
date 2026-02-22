@@ -1,0 +1,129 @@
+{
+  "status": "active",
+  "schedule": {
+    "enabled": false,
+    "interval_hours": 2,
+    "times": ["00:00", "02:00", "04:00", "06:00", "08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00"],
+    "timezone": "UTC"
+  },
+  "business": {
+    "name": "Your Business Name",
+    "description": "What you do - help people understand your offer in one sentence",
+    "audience": "Who your ideal customers are",
+    "positioning": "What makes you different",
+    "website": "https://yourwebsite.com",
+    "callToAction": "Call to action for your audience"
+  },
+
+  "imageGeneration": {
+    "provider": "openai",
+    "model": "dall-e-3",
+    "apiKey": "${OPENAI_API_KEY}",
+    "defaultResolution": "1024x1024",
+    "style": "modern, clean, professional"
+  },
+
+  "postiz": {
+    "apiKey": "${POSTIZ_API_KEY}",
+    "workspace": "your-workspace-name",
+    "integrationIds": {
+      "tiktok": "your-tiktok-integration-id",
+      "instagram": "your-instagram-integration-id",
+      "linkedin": "your-linkedin-integration-id",
+      "youtube": "your-youtube-integration-id",
+      "twitter": "your-twitter-integration-id",
+      "threads": "your-threads-integration-id"
+    }
+  },
+
+  "platforms": {
+    "tiktok": {
+      "enabled": true,
+      "accountType": "creator",
+      "username": "@your_username",
+      "postingSchedule": ["08:00", "14:00", "20:00"],
+      "contentType": "carousel",
+      "carouselConfig": {
+        "slides": 3,
+        "aspectRatio": "9:16",
+        "includeCaptions": true,
+        "includeHashtags": true,
+        "maxHashtags": 5
+      },
+      "privacyLevel": "SELF_ONLY",
+      "warmupComplete": false,
+      "warmupStartDate": null
+    },
+    "instagram": {
+      "enabled": true,
+      "accountType": "creator",
+      "username": "your_username",
+      "postingSchedule": ["09:00", "15:00", "21:00"],
+      "contentType": "carousel",
+      "carouselConfig": {
+        "slides": 5,
+        "aspectRatio": "1:1",
+        "includeCaptions": true
+      },
+      "privacyLevel": "PUBLIC"
+    },
+    "linkedin": {
+      "enabled": false,
+      "profileUrl": "https://linkedin.com/in/your-profile",
+      "accountType": "personal",
+      "postingSchedule": ["10:00", "16:00"],
+      "contentType": "posts"
+    },
+    "youtube": {
+      "enabled": false,
+      "username": "your_channel",
+      "postingSchedule": ["12:00"],
+      "contentType": "shorts"
+    },
+    "twitter": {
+      "enabled": false,
+      "username": "@your_handle",
+      "postingSchedule": ["09:00", "15:00", "21:00"],
+      "contentType": "text"
+    },
+    "threads": {
+      "enabled": false,
+      "username": "your_handle",
+      "postingSchedule": ["10:00", "16:00"],
+      "contentType": "text"
+    }
+  },
+
+  "content": {
+    "hookMix": {
+      "narratives": 0.30,
+      "tutorials": 0.30,
+      "showcases": 0.20,
+      "engagement": 0.20
+    },
+    "callsToAction": [
+      "DM for free consultation",
+      "Book a call",
+      "Check link in bio",
+      "Share with someone who needs this"
+    ],
+    "toneOfVoice": "Professional, encouraging, actionable"
+  },
+
+  "generation": {
+    "postsPerRun": 2,
+    "platformsPerPost": ["tiktok", "instagram"],
+    "contentTopics": [
+      "Your topic 1",
+      "Your topic 2",
+      "Your topic 3"
+    ]
+  },
+
+  "analytics": {
+    "trackingMode": "platform_apis",
+    "minimumViewsToReport": 100,
+    "dailyReportTime": "08:00",
+    "reportingTimezone": "UTC"
+  }
+}

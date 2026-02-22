@@ -1,0 +1,28 @@
+{
+  "id": "mission-control",
+  "name": "Mission Control Dashboard v3.0",
+  "version": "3.0.0",
+  "description": "Complete Mission Control with Tasks Board, Content Pipeline, Calendar, Memory, Team, and Office views",
+  "author": "James",
+  "created": "2026-02-19T17:30:00Z",
+  "updated": "2026-02-20T16:00:00Z",
+  "status": "production",
+  "keywords": ["dashboard", "mission-control", "tasks", "pipeline", "calendar", "team", "office", "memory"],
+  "components": [
+    "Tasks Board - Track tasks with status, owner, priority",
+    "Content Pipeline - Idea → Script → Thumbnail → Filming → Done",
+    "Calendar - Scheduled tasks and recurring events",
+    "Team - Agents as employees with roles and managers",
+    "Office - Visual workspace with agent status",
+    "Memory - Searchable memory with global search"
+  ],
+  "features": [
+    "Real-time WebSocket updates",
+    "CRUD operations for all components",
+    "Visual office layout",
+    "Global memory search",
+    "Task assignment and tracking",
+    "Content stage management",
+    "Calendar with recurring events"
+  ]
+}

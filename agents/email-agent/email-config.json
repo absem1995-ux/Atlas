@@ -1,0 +1,98 @@
+{
+  "service": {
+    "name": "Email Agent",
+    "version": "1.0.0",
+    "description": "Centralized email service for multi-agent system",
+    "port": 3000
+  },
+
+  "providers": {
+    "default": "sendgrid",
+    "smtp": {
+      "host": "${SMTP_HOST}",
+      "port": "${SMTP_PORT}",
+      "secure": true,
+      "auth": {
+        "user": "${SMTP_USER}",
+        "pass": "${SMTP_PASSWORD}"
+      }
+    },
+    "sendgrid": {
+      "api_key": "${SENDGRID_API_KEY}"
+    },
+    "aws_ses": {
+      "region": "${AWS_SES_REGION}",
+      "credentials": {
+        "accessKeyId": "${AWS_ACCESS_KEY_ID}",
+        "secretAccessKey": "${AWS_SECRET_ACCESS_KEY}"
+      }
+    }
+  },
+
+  "guardrails": {
+    "bulk_send_threshold": 500,
+    "bulk_send_escalate_at": 1000,
+    "rate_limit_per_hour": 50,
+    "rate_limit_per_day": 1000,
+    "require_whitelist_after": 100
+  },
+
+  "templates": {
+    "daily_report": {
+      "subject": "Daily Report — {{date}}",
+      "html_file": "templates/daily-report.html",
+      "text_file": "templates/daily-report.txt"
+    },
+    "approval_needed": {
+      "subject": "⏳ Approval Required: {{action}}",
+      "html_file": "templates/approval-needed.html"
+    },
+    "escalation_alert": {
+      "subject": "⚠️ Escalation Alert: {{issue}}",
+      "html_file": "templates/escalation-alert.html"
+    },
+    "task_assignment": {
+      "subject": "📋 New Task: {{task_name}}",
+      "html_file": "templates/task-assignment.html"
+    },
+    "status_update": {
+      "subject": "✓ Status Update: {{status}}",
+      "html_file": "templates/status-update.html"
+    }
+  },
+
+  "tracking": {
+    "enabled": true,
+    "track_opens": true,
+    "track_clicks": true,
+    "track_bounces": true,
+    "webhook_path": "/webhooks/email",
+    "webhook_secret": "${TRACKING_WEBHOOK_SECRET}"
+  },
+
+  "audit_logging": {
+    "enabled": true,
+    "log_all_sends": true,
+    "log_bounces": true,
+    "log_guardrail_violations": true,
+    "log_approvals": true,
+    "retention_days": 90
+  },
+
+  "rate_limiting": {
+    "per_agent": {
+      "atlas": 50,
+      "astra": 50,
+      "sentinel": 50,
+      "coo": 50
+    },
+    "burst_limit": 100,
+    "window_minutes": 60
+  },
+
+  "agent_defaults": {
+    "from_name": "Multi-Agent System",
+    "from_email": "${FROM_EMAIL}",
+    "reply_to": "${REPLY_TO_EMAIL}"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "agent": {
+    "name": "COO",
+    "role": "governance",
+    "version": "1.0.0",
+    "mockMode": true
+  },
+  "approvals": {
+    "requireApprovalFor": [
+      "post_to_restricted_account",
+      "send_to_large_list",
+      "escalation_tier_3",
+      "budget_over_limit"
+    ],
+    "autoApproveSafeActions": true,
+    "humanEscalationThreshold": "critical"
+  },
+  "hardStops": {
+    "levels": [
+      "PREVENT",
+      "REQUIRE_APPROVAL",
+      "NOTIFY",
+      "RATE_LIMIT",
+      "BUDGET_LIMIT"
+    ],
+    "enforcedFrom": "hard_stops.json",
+    "violationAction": "block_and_escalate"
+  },
+  "escalation": {
+    "automationThreshold": "high",
+    "humanEscalationFor": [
+      "critical",
+      "revenue_impact",
+      "security"
+    ],
+    "escalationPath": "COO -> Human"
+  },
+  "lessonsCollection": {
+    "frequency": "daily",
+    "time": "08:00 UTC",
+    "propagatePatterns": true,
+    "escalateThreshold": 3
+  },
+  "budgets": {
+    "dailyCap": 100,
+    "monthlyCap": 2000,
+    "warningThreshold": 0.8
+  },
+  "limits": {
+    "atlas_posts_per_day": 100,
+    "email_messages_per_day": 10000,
+    "sentinel_escalations_per_day": 50,
+    "astra_tasks_per_day": 50
+  },
+  "systemHealth": {
+    "trackMetrics": true,
+    "alertThreshold": 0.85,
+    "criticalThreshold": 0.7
+  }
+}

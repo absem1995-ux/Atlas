@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mission Control — Dashboard v3.1</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Monaco', 'Courier New', monospace;
+      background: linear-gradient(135deg, #0a0e27 0%, #16213e 100%);
+      color: #e8e8e8;
+      padding: 20px;
+      min-height: 100vh;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #00d4ff;
+    }
+    
+    h1 {
+      font-size: 28px;
+      background: linear-gradient(90deg, #00d4ff, #00ffaa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    /* Stats Bar */
+    .stats-bar {
+      display: flex;
+      gap: 20px;
+      background: rgba(0,0,0,0.3);
+      padding: 15px 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    
+    .stat {
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00ffaa;
+    }
+    
+    .stat-label {
+      font-size: 11px;
+      color: #888;
+      text-transform: uppercase;
+    }
+    
+    .stat.completed .stat-value { color: #00ff00; }
+    .stat.in-progress .stat-value { color: #00d4ff; }
+    .stat.total .stat-value { color: #ffaa00; }
+    .stat.backlog .stat-value { color: #ff64ff; }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    
+    .tab {
+      padding: 12px 20px;
+      background: rgba(20, 35, 60, 0.8);
+      border: 1px solid #00d4ff;
+      color: #00d4ff;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 13px;
+      transition: all 0.2s;
+    }
+    
+    .tab:hover { background: rgba(0, 212, 255, 0.1); }
+    .tab.active {
+      background: linear-gradient(135deg, #00d4ff 0%, #00ffaa 100%);
+      color: #0a0e27;
+    }
+    
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    /* Kanban Board */
+    .kanban {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    
+    .kanban-column {
+      background: rgba(20, 35, 60, 0.8);
+      border: 1px solid #00d4ff;
+      border-radius: 8px;
+      padding: 16px;
+      min-height: 400px;
+    }
+    
+    .column-header {
+      font-weight: bold;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .column-header.recurring { border-color: #00d4ff; color: #00d4ff; }
+    .column-header.backlog { border-color: #ff64ff; color: #ff64ff; }
+    .column-header.in_progress { border-color: #00ff00; color: #00ff00; }
+    .column-header.done { border-color: #888; color: #888; }
+    
+    .column-count {
+      background: rgba(255,255,255,0.1);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    
+    /* Task Cards */
+    .task-card {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .task-card:hover {
+      border-color: #00d4ff;
+      transform: translateY(-2px);
+    }
+    
+    .task-title {
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    
+    .task-meta {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    
+    .tag {
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 10px;
+      text-transform: uppercase;
+    }
+    
+    .tag.high { background: #ff0055; }
+    .tag.medium { background: #ffaa00; color: #0a0e27; }
+    .tag.low { background: #00ffaa; color: #0a0e27; }
+    
+    .tag.video { background: #ff64ff; }
+    .tag.written { background: #00d4ff; color: #0a0e27; }
+    .tag.social { background: #00ff00; color: #0a0e27; }
+    
+    .tag.owner-me { background: #ffaa00; color: #0a0e27; }
+    .tag.owner-agent { background: #00d4ff; color: #0a0e27; }
+    
+    .tag.project-content { background: #ff64ff; }
+    .tag.project-dev { background: #00ff00; }
+    .tag.project-research { background: #00d4ff; }
+    
+    /* Common */
+    .btn {
+      padding: 8px 16px;
+      border: 1px solid #00d4ff;
+      background: rgba(0, 212, 255, 0.1);
+      color: #00d4ff;
+      cursor: pointer;
+      font-size: 12px;
+      border-radius: 4px;
+    }
+    
+    .btn:hover { background: rgba(0, 212, 255, 0.2); }
+    .btn-primary { background: #00d4ff; color: #0a0e27; }
+    
+    input, select {
+      width: 100%;
+      padding: 8px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid #00d4ff;
+      color: #fff;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    
+    .card {
+      background: rgba(20, 35, 60, 0.8);
+      border: 1px solid #00d4ff;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+    
+    /* Memory */
+    .memory-item {
+      padding: 16px;
+      background: rgba(0,0,0,0.2);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border-left: 3px solid #00ffaa;
+    }
+    
+    .memory-search {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    
+    .memory-search input { flex: 1; margin-bottom: 0; }
+    
+    /* Loading */
+    .loading { text-align: center; padding: 40px; color: #00d4ff; }
+    
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+    .pulse { animation: pulse 2s infinite; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎯 MISSION CONTROL v3.1</h1>
+    <div style="display: flex; gap: 20px; align-items: center;">
+      <span class="pulse" style="color: #00ff00;">● LIVE</span>
+    </div>
+  </header>
+  
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stat completed">
+      <div class="stat-value" id="stat-completed">0</div>
+      <div class="stat-label">Completed</div>
+    </div>
+    <div class="stat in-progress">
+      <div class="stat-value" id="stat-progress">0</div>
+      <div class="stat-label">In Progress</div>
+    </div>
+    <div class="stat backlog">
+      <div class="stat-value" id="stat-backlog">0</div>
+      <div class="stat-label">Backlog</div>
+    </div>
+    <div class="stat recurring">
+      <div class="stat-value" id="stat-recurring">0</div>
+      <div class="stat-label">Recurring</div>
+    </div>
+    <div class="stat total">
+      <div class="stat-value" id="stat-total">0</div>
+      <div class="stat-label">Total</div>
+    </div>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('tasks')">✅ Tasks</button>
+    <button class="tab" onclick="switchTab('content')">📺 Content</button>
+    <button class="tab" onclick="switchTab('calendar')">📅 Calendar</button>
+    <button class="tab" onclick="switchTab('memories')">🧠 Memory</button>
+    <button class="tab" onclick="switchTab('team')">👥 Team</button>
+  </div>
+  
+  <!-- TASKS KANBAN -->
+  <div id="tasks" class="tab-content active">
+    <div class="kanban">
+      <div class="kanban-column">
+        <div class="column-header recurring">
+          🔄 RECURRING <span class="column-count" id="count-recurring">0</span>
+        </div>
+        <div id="col-recurring"></div>
+      </div>
+      
+      <div class="kanban-column">
+        <div class="column-header backlog">
+          📥 BACKLOG <span class="column-count" id="count-backlog">0</span>
+        </div>
+        <div id="col-backlog"></div>
+      </div>
+      
+      <div class="kanban-column">
+        <div class="column-header in_progress">
+          ⚡ IN PROGRESS <span class="column-count" id="count-in_progress">0</span>
+        </div>
+        <div id="col-in_progress"></div>
+      </div>
+      
+      <div class="kanban-column">
+        <div class="column-header done">
+          ✅ DONE <span class="column-count" id="count-done">0</span>
+        </div>
+        <div id="col-done"></div>
+      </div>
+    </div>
+    
+    <button class="btn" onclick="showAddTask()" style="margin-top: 20px;">+ Add Task</button>
+  </div>
+  
+  <!-- CONTENT PIPELINE -->
+  <div id="content" class="tab-content">
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+      <button class="btn" onclick="filterContent('all')">All</button>
+      <button class="btn" onclick="filterContent('video')">🎬 Video</button>
+      <button class="btn" onclick="filterContent('written')">📝 Written</button>
+      <button class="btn" onclick="filterContent('social')">📱 Social</button>
+    </div>
+    <div class="grid" id="content-grid"></div>
+  </div>
+  
+  <!-- CALENDAR -->
+  <div id="calendar" class="tab-content">
+    <div class="grid" id="calendar-grid"></div>
+  </div>
+  
+  <!-- MEMORIES -->
+  <div id="memories" class="tab-content">
+    <div class="memory-search">
+      <input type="text" id="memory-search" placeholder="Search memories..." onkeyup="searchMemories()">
+      <button class="btn" onclick="searchMemories()">Search</button>
+    </div>
+    <div id="memories-grid"></div>
+  </div>
+  
+  <!-- TEAM -->
+  <div id="team" class="tab-content">
+    <div id="team-grid"></div>
+  </div>
+  
+  <script>
+    let state = {};
+    let ws = null;
+    
+    // Connect
+    function connect() {
+      ws = new WebSocket(`ws://${location.host}/ws`);
+      ws.onmessage = (e) => {
+        const m = JSON.parse(e.data);
+        if (m.type === 'initial_state') {
+          state = m;
+          renderAll();
+        } else if (m.type === 'tasks_board_update') {
+          state.tasks_board = state.tasks_board || [];
+          const i = state.tasks_board.findIndex(t => t.id === m.task.id);
+          (i >= 0 ? state.tasks_board[i] : state.tasks_board.push(m.task));
+          renderTasks();
+        }
+      };
+      ws.onclose = () => setTimeout(connect, 3000);
+    }
+    
+    async function loadData() {
+      const r = await Promise.all([
+        fetch('/api/tasks-board').then(x => x.json()),
+        fetch('/api/content-pipeline').then(x => x.json()),
+        fetch('/api/calendar').then(x => x.json()),
+        fetch('/api/memories').then(x => x.json()),
+        fetch('/api/team').then(x => x.json())
+      ]);
+      state.tasks_board = r[0].tasks;
+      state.content_pipeline = r[1].pipeline;
+      state.calendar = r[2].events;
+      state.memories = r[3].memories;
+      state.team = r[4].team;
+      renderAll();
+    }
+    
+    function renderAll() {
+      renderStats();
+      renderTasks();
+      renderContent();
+      renderCalendar();
+      renderMemories();
+      renderTeam();
+    }
+    
+    function renderStats() {
+      const t = state.tasks_board || [];
+      const done = t.filter(x => x.status === 'done').length;
+      const progress = t.filter(x => x.status === 'in_progress').length;
+      const backlog = t.filter(x => x.status === 'todo').length;
+      const recurring = t.filter(x => x.status === 'recurring').length;
+      
+      document.getElementById('stat-completed').textContent = done;
+      document.getElementById('stat-progress').textContent = progress;
+      document.getElementById('stat-backlog').textContent = backlog;
+      document.getElementById('stat-recurring').textContent = recurring;
+      document.getElementById('stat-total').textContent = t.length;
+      
+      document.getElementById('count-recurring').textContent = recurring;
+      document.getElementById('count-backlog').textContent = backlog;
+      document.getElementById('count-in_progress').textContent = progress;
+      document.getElementById('count-done').textContent = done;
+    }
+    
+    function renderTasks() {
+      const t = state.tasks_board || [];
+      ['recurring', 'todo', 'in_progress', 'done'].forEach(status => {
+        const col = document.getElementById(`col-${status}`);
+        const tasks = t.filter(x => x.status === status);
+        col.innerHTML = tasks.map(task => `
+          <div class="task-card" onclick="editTask('${task.id}')">
+            <div class="task-title">${task.title}</div>
+            <div class="task-meta">
+              <span class="tag ${task.priority}">${task.priority}</span>
+              <span class="tag ${task.owner === 'James' ? 'owner-me' : 'owner-agent'}">${task.owner}</span>
+              ${task.project ? `<span class="tag project-${task.project}">${task.project}</span>` : ''}
+              ${task.type ? `<span class="tag ${task.type}">${task.type}</span>` : ''}
+            </div>
+          </div>
+        `).join('');
+      });
+      renderStats();
+    }
+    
+    let contentFilter = 'all';
+    function filterContent(f) { contentFilter = f; renderContent(); }
+    
+    function renderContent() {
+      const c = (state.content_pipeline || []).filter(x => contentFilter === 'all' || x.type === contentFilter);
+      document.getElementById('content-grid').innerHTML = c.map(item => `
+        <div class="card">
+          <div style="font-weight:bold;margin-bottom:8px;">${item.title}</div>
+          <span class="tag ${item.stage}">${item.stage}</span>
+          <span class="tag ${item.type || item.platform}">${item.type || item.platform}</span>
+          <div style="font-size:11px;color:#888;margin-top:8px;">Assignee: ${item.assignee}</div>
+        </div>
+      `).join('') || '<p style="color:#888">No content yet</p>';
+    }
+    
+    function renderCalendar() {
+      const c = state.calendar || [];
+      document.getElementById('calendar-grid').innerHTML = c.map(e => `
+        <div class="card" style="border-left: 3px solid #00d4ff;">
+          <div style="font-weight:bold;">${e.title}</div>
+          <div style="font-size:12px;color:#888;">${new Date(e.time).toLocaleString()}</div>
+          <span class="tag ${e.type}">${e.type}</span>
+        </div>
+      `).join('') || '<p style="color:#888">No events</p>';
+    }
+    
+    function renderMemories() {
+      const m = state.memories || [];
+      document.getElementById('memories-grid').innerHTML = m.map(mem => `
+        <div class="memory-item">
+          <div style="font-weight:bold;color:#00d4ff;">${mem.title}</div>
+          <div style="font-size:13px;margin-top:8px;">${mem.content}</div>
+          <div style="font-size:11px;color:#888;margin-top:8px;">${new Date(mem.timestamp).toLocaleString()}</div>
+        </div>
+      `).join('') || '<p style="color:#888">No memories</p>';
+    }
+    
+    function renderTeam() {
+      const team = state.team || [];
+      document.getElementById('team-grid').innerHTML = team.map(m => `
+        <div class="card" style="display:flex;align-items:center;gap:16px;">
+          <div style="font-size:32px;">${m.avatar}</div>
+          <div>
+            <div style="font-weight:bold;color:#00ffaa;">${m.name}</div>
+            <div style="font-size:12px;color:#888;">${m.role}</div>
+            <span class="tag ${m.status === 'working' ? 'in_progress' : 'low'}">${m.status}</span>
+          </div>
+        </div>
+      `).join('');
+    }
+    
+    function searchMemories() {
+      const q = document.getElementById('memory-search').value.toLowerCase();
+      const m = (state.memories || []).filter(x => !q || x.title.toLowerCase().includes(q) || x.content.toLowerCase().includes(q));
+      document.getElementById('memories-grid').innerHTML = m.map(mem => `
+        <div class="memory-item">
+          <div style="font-weight:bold;color:#00d4ff;">${mem.title}</div>
+          <div style="font-size:13px;margin-top:8px;">${mem.content}</div>
+          <div style="font-size:11px;color:#888;margin-top:8px;">${new Date(mem.timestamp).toLocaleString()}</div>
+        </div>
+      `).join('');
+    }
+    
+    function showAddTask() {
+      const title = prompt('Task title:');
+      if (!title) return;
+      const status = prompt('Status (recurring/todo/in_progress/done):', 'todo');
+      const priority = prompt('Priority (high/medium/low):', 'medium');
+      const owner = prompt('Owner (James/Atlas/Reaper/etc):', 'James');
+      const project = prompt('Project (content/dev/research):', '');
+      const type = prompt('Type (video/written/social):', '');
+      
+      fetch('/api/tasks-board', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ title, status, priority, owner, project, type })
+      });
+    }
+    
+    function editTask(id) {
+      const task = (state.tasks_board || []).find(t => t.id === id);
+      if (!task) return;
+      const status = prompt('New status (recurring/todo/in_progress/done):', task.status);
+      if (status) {
+        fetch(`/api/tasks-board/${id}`, {
+          method: 'PUT',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ status })
+        });
+      }
+    }
+    
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelector(`.tab[onclick="switchTab('${tab}')"]`).classList.add('active');
+      document.getElementById(tab).classList.add('active');
+    }
+    
+    loadData();
+    connect();
+  </script>
+</body>
+</html>

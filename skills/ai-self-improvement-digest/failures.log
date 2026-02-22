@@ -1,0 +1,55 @@
+# Failures Log - AI Self-Improvement Digest
+
+## Known Issues
+
+### Rate Limiting (429 errors)
+**Problem:** Hitting Brave Search rate limits when scanning 6+ sources in one run  
+**Root Cause:** Not respecting 10s delays between searches  
+**Solution:** Add explicit wait(10000) between web_search calls; batch similar searches  
+**Prevention:** Max 5 searches per batch, then 2-minute break  
+
+### Duplicate Detection
+**Problem:** Same article appears on consecutive days  
+**Root Cause:** Deduplication check only looked at exact URL match, not URL variations or rewrites  
+**Solution:** Implement title + domain fuzzy matching in deduplication step  
+**Prevention:** Before posting, check both URL and title against posted list  
+
+### Irrelevant Content Slip-Through
+**Problem:** General AI news (e.g., "OpenAI releases new model") mixed into digest  
+**Root Cause:** Filtering criteria too loose; didn't apply strict "self-improvement" test  
+**Solution:** Add secondary filter: "Does this directly help James improve a core skill?" If no, exclude  
+**Prevention:** Re-read STEP 3 filtering rules before posting  
+
+### Setup Review Too Vague
+**Problem:** Suggestions like "could consider exploring memory patterns"  
+**Root Cause:** Not grounding suggestions in actual article findings  
+**Solution:** For each suggestion, quote the specific article/pattern that inspired it  
+**Prevention:** Mandatory rule: Every setup suggestion must reference a specific article  
+
+### Source Unavailability
+**Problem:** Anthropic.com engineering blog is down; entire run fails  
+**Root Cause:** No graceful fallback for unavailable sources  
+**Solution:** Skip and note in memory; continue with other Tier 1/2 sources  
+**Prevention:** Try/catch around each source check; log failures but don't abort  
+
+### Missing Context on X/Twitter
+**Problem:** X searches don't fetch full context; quoted tweets are cut off  
+**Root Cause:** Using basic web_search instead of x-research skill  
+**Solution:** Use x-research skill when available for richer Twitter context  
+**Prevention:** Document x-research setup as optional enhancement  
+
+## Lessons Learned
+
+- **Deduplication is critical:** One duplicate per week is 1/5 of the digest being garbage
+- **Rate limits are real:** Always respect 10s between searches; batch similar work
+- **Filtering saves time:** Strict criteria upfront beats weak filters that need manual review
+- **Setup Review connects theory to practice:** Vague suggestions waste everyone's time; ground them in findings
+- **Graceful degradation:** Sources go down; skip them and continue rather than aborting
+
+## Future Improvements
+
+- [ ] Add fuzzy string matching for title deduplication
+- [ ] Implement x-research skill integration for Twitter
+- [ ] Add experiment outcome tracking dashboard
+- [ ] Create weekly summary of learnings across digests
+- [ ] Add source health check (skip dead sources faster)

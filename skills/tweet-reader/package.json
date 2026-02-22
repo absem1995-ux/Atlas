@@ -1,0 +1,21 @@
+{
+  "name": "tweet-reader-skill",
+  "version": "0.1.0",
+  "description": "Read X (Twitter) tweets and extract text content via browser automation",
+  "main": "scripts/read-tweet.js",
+  "scripts": {
+    "test": "node scripts/test.js"
+  },
+  "keywords": [
+    "twitter",
+    "x",
+    "tweets",
+    "content-extraction",
+    "skill"
+  ],
+  "author": "Claude Skills",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0"
+  }
+}

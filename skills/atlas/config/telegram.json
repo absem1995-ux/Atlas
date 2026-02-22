@@ -1,0 +1,18 @@
+{
+  "telegram": {
+    "enabled": true,
+    "botToken": "${ATLAS_TELEGRAM_TOKEN}",
+    "botUsername": "atlastest12bot",
+    "chatId": "YOUR_CHAT_ID",
+    "notifications": {
+      "onPostGenerated": true,
+      "onPostPublished": true,
+      "onError": true
+    }
+  },
+  "reporting": {
+    "channel": "telegram",
+    "frequency": "daily",
+    "include": ["posts_generated", "views", "engagement", "errors"]
+  }
+}

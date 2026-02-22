@@ -1,0 +1,16 @@
+{
+  "name": "coo-agent",
+  "version": "1.0.0",
+  "description": "Chief Operating Officer agent - governance, approvals, hard stops, system oversight",
+  "main": "scripts/coo-approval-engine.js",
+  "scripts": {
+    "approve": "node scripts/coo-approval-engine.js",
+    "enforce": "node scripts/coo-hard-stop-enforcer.js",
+    "escalate": "node scripts/coo-escalation-handler.js",
+    "collect": "node scripts/coo-lesson-collector.js",
+    "monitor": "node scripts/coo-system-monitor.js"
+  },
+  "keywords": ["agent", "governance", "coo", "approval", "oversight"],
+  "author": "James",
+  "license": "MIT"
+}

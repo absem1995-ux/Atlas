@@ -1,0 +1,13 @@
+{
+  "name": "web-screenshot-skill",
+  "version": "1.0.0",
+  "description": "Screenshot any webpage and extract text via OCR",
+  "main": "src/screenshotter.js",
+  "scripts": {
+    "screenshot": "node src/screenshotter.js"
+  },
+  "dependencies": {
+    "playwright": "^1.40.0",
+    "tesseract.js": "^4.1.0"
+  }
+}

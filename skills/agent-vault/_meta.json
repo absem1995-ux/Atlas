@@ -1,0 +1,50 @@
+{
+  "id": "agent-vault",
+  "name": "Agent Vault — Secrets Management",
+  "version": "1.0.0",
+  "description": "Store API keys locally (AES-256 encrypted). Agent never sees real secrets. Placeholders in config files.",
+  "author": "botiverse (learned via @kloss_xyz)",
+  "source": "https://npmjs.com/@botiverse/agent-vault",
+  "created": "2026-02-19T17:55:00Z",
+  "status": "production",
+  "keywords": [
+    "security",
+    "secrets",
+    "encryption",
+    "api-keys",
+    "credentials",
+    "aes-256",
+    "agent-safety"
+  ],
+  "security": {
+    "encryption": "AES-256-GCM",
+    "key_derivation": "PBKDF2",
+    "storage": "Local encrypted file",
+    "threat_model": "Protection against plaintext exposure in logs/training data"
+  },
+  "features": [
+    "Local AES-256 encryption",
+    "Passphrase-protected vault",
+    "Placeholder-based config",
+    "Runtime secret swapping",
+    "Zero exposure to agent",
+    "Automated encrypted backups",
+    "Tampering detection"
+  ],
+  "commands": [
+    "agent-vault init",
+    "agent-vault set <name> <value>",
+    "agent-vault get <name>",
+    "agent-vault list",
+    "agent-vault delete <name>",
+    "agent-vault load <config-file>"
+  ],
+  "integration": {
+    "openai": "api_key: <agent-vault:openai-key>",
+    "telegram": "bot_token: <agent-vault:tg-bot-token>",
+    "stripe": "secret_key: <agent-vault:stripe-secret>",
+    "aws": "access_key: <agent-vault:aws-key>",
+    "any_api": "<agent-vault:secret-name>"
+  },
+  "critical_rule": "Never ask user for API keys in plaintext. Always use agent-vault placeholders."
+}

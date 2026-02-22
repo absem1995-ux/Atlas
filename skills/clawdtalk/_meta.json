@@ -1,0 +1,43 @@
+{
+  "id": "clawdtalk",
+  "name": "Clawdtalk - Voice & Phone for OpenClaw",
+  "version": "1.0.0",
+  "description": "Give OpenClaw a real phone number for calls and SMS",
+  "author": "Clawdtalk (external)",
+  "website": "https://clawdtalk.com",
+  "source_docs": "https://telnyx.com/resources/openclaw-phone-calls",
+  "created": "2026-02-20T16:25:00Z",
+  "status": "research_complete",
+  "security_status": "verified_safe",
+  "keywords": [
+    "voice",
+    "phone",
+    "calls",
+    "sms",
+    "telnyx",
+    "telephony"
+  ],
+  "features": [
+    "Receive calls",
+    "Make calls",
+    "SMS handling",
+    "Voice commands",
+    "PIN protection",
+    "Caller ID validation"
+  ],
+  "security": {
+    "pin_protection": "available",
+    "caller_validation": "server_side",
+    "connection_type": "websocket_outbound",
+    "privacy": "agent_not_publicly_exposed"
+  },
+  "setup": {
+    "time": "5 minutes",
+    "register_at": "clawdtalk.com",
+    "dependencies": ["telnyx_account"]
+  },
+  "costs": {
+    "free_tier": true,
+    "notes": "Shared number free, dedicated number paid"
+  }
+}

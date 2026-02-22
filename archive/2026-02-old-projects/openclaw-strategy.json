@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "created": "2026-02-17",
+  "target": "Developer + Entrepreneur audience",
+  "platforms": ["tiktok", "reddit"],
+  "hookCategories": {
+    "workflow-wins": {
+      "description": "Before/after automation stories",
+      "examples": [
+        "I spent 3 hours a week on this. OpenClaw automated it in 5 minutes.",
+        "My team used to do this manually. Now an agent handles it.",
+        "This workflow saves us $500/month in manual labor"
+      ],
+      "slideFormat": "before-after"
+    },
+    "agent-showcase": {
+      "description": "Live agent demos and capabilities",
+      "examples": [
+        "Built an agent that writes blog posts. Here's what 30 seconds looks like.",
+        "This agent manages our entire Discord. Watch.",
+        "OpenClaw agent just [action]. No servers, no complex setup."
+      ],
+      "slideFormat": "demo-walkthrough"
+    },
+    "developer-mindset": {
+      "description": "Resonates with builders and tinkerers",
+      "examples": [
+        "Everyone talks about AI agents. I actually built one.",
+        "No-code? Nah. I wanted control. Built it in OpenClaw.",
+        "Open source agent framework. Ran it on my laptop. It just works."
+      ],
+      "slideFormat": "code-showcase"
+    },
+    "time-saved": {
+      "description": "Quantifiable productivity gains",
+      "examples": [
+        "Automated 20 hours of monthly work. Here's what I do with the time now.",
+        "This takes 2 minutes instead of 2 hours. Every day.",
+        "5 automations running. 15 hours saved per week."
+      ],
+      "slideFormat": "numbers"
+    }
+  },
+  "posting": {
+    "frequency": "3x daily (TikTok), 2x daily (Reddit)",
+    "times": ["07:30", "16:30", "21:00"],
+    "contentMix": {
+      "tutorials": "30%",
+      "wins": "40%",
+      "showcases": "20%",
+      "community": "10%"
+    }
+  },
+  "cta": {
+    "primary": "Docs: docs.openclaw.ai | GitHub: github.com/openclaw/openclaw",
+    "secondary": "DM for setup help",
+    "tertiary": "Join the Discord"
+  },
+  "keywords": [
+    "automation",
+    "agent",
+    "workflow",
+    "open source",
+    "developer tools",
+    "DevOps",
+    "integration",
+    "productivity"
+  ],
+  "notes": "Tailor to the developer audience — show code, demos, and real results. Avoid corporate speak. Lead with 'I built this' or 'We saved X hours.'"
+}

@@ -1,0 +1,110 @@
+{
+  "business": {
+    "name": "YOUR_BUSINESS_NAME",
+    "description": "What does your business do?",
+    "audience": "Who are you talking to?",
+    "positioning": "What makes you different?",
+    "website": "https://example.com",
+    "callToAction": "What should people do? (Join Discord, visit website, DM, etc)"
+  },
+
+  "imageGeneration": {
+    "provider": "openai",
+    "model": "gpt-image-1.5",
+    "apiKey": "${OPENAI_API_KEY}",
+    "defaultResolution": "1024x1024",
+    "style": "photorealistic"
+  },
+
+  "postiz": {
+    "apiKey": "${POSTIZ_API_KEY}",
+    "workspace": "your_postiz_workspace",
+    "integrationIds": {
+      "tiktok": "get_from_postiz_dashboard",
+      "instagram": "get_from_postiz_dashboard",
+      "youtube": "get_from_postiz_dashboard",
+      "linkedin": "get_from_postiz_dashboard",
+      "reddit": "get_from_postiz_dashboard",
+      "facebook": "get_from_postiz_dashboard"
+    }
+  },
+
+  "platforms": {
+    "tiktok": {
+      "enabled": true,
+      "accountType": "creator",
+      "username": "@your_tiktok_handle",
+      "postingSchedule": ["07:30", "16:30", "21:00"],
+      "privacyLevel": "SELF_ONLY",
+      "warmupComplete": false,
+      "warmupStartDate": "2026-02-18",
+      "notes": "Posts go to drafts; you select audio before publishing"
+    },
+    "instagram": {
+      "enabled": true,
+      "accountType": "creator",
+      "username": "your_instagram_handle",
+      "postingSchedule": ["09:00", "18:00"],
+      "contentType": "reels",
+      "privacyLevel": "PUBLIC"
+    },
+    "youtube": {
+      "enabled": true,
+      "channelId": "get_from_youtube_studio",
+      "postingSchedule": ["12:00"],
+      "contentType": "shorts",
+      "privacyLevel": "PUBLIC"
+    },
+    "linkedin": {
+      "enabled": true,
+      "profileUrl": "https://linkedin.com/company/your_company",
+      "accountType": "organization",
+      "postingSchedule": ["09:00", "14:00"],
+      "contentType": "posts"
+    },
+    "reddit": {
+      "enabled": false,
+      "subreddits": [],
+      "postingSchedule": [],
+      "postingMode": "manual",
+      "notes": "Risky for automation; requires community approval"
+    },
+    "facebook": {
+      "enabled": false,
+      "pageId": "get_from_facebook_dashboard",
+      "postingSchedule": []
+    }
+  },
+
+  "content": {
+    "hookMix": {
+      "narratives": 0.40,
+      "tutorials": 0.30,
+      "showcases": 0.20,
+      "engagement": 0.10
+    },
+    "callsToAction": [
+      "Join our community",
+      "Check out the docs",
+      "DM for questions",
+      "Star us on GitHub"
+    ],
+    "toneOfVoice": "Describe your tone (e.g., 'Technical, practical, no fluff')"
+  },
+
+  "audio": {
+    "voiceoverEnabled": false,
+    "voiceoverProvider": "elevenlabs",
+    "voiceoverApiKey": "${ELEVENLABS_API_KEY}",
+    "nativeAudioStrategy": "use_platform_defaults",
+    "musicLicense": "platform_native",
+    "notes": "Voiceover is optional; skip for MVP"
+  },
+
+  "analytics": {
+    "trackingMode": "platform_apis",
+    "minimumViewsToReport": 500,
+    "dailyReportTime": "08:00",
+    "reportingTimezone": "UTC"
+  }
+}

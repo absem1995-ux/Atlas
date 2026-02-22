@@ -1,0 +1,14 @@
+{
+  "name": "email-agent",
+  "version": "1.0.0",
+  "description": "Email and communications agent - campaigns, notifications, engagement tracking",
+  "main": "scripts/email-campaign-manager.js",
+  "scripts": {
+    "campaigns": "node scripts/email-campaign-manager.js",
+    "templates": "node scripts/email-template-engine.js",
+    "track": "node scripts/email-delivery-monitor.js"
+  },
+  "keywords": ["agent", "email", "campaigns", "communications"],
+  "author": "James",
+  "license": "MIT"
+}

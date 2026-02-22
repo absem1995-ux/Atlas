@@ -1,0 +1,29 @@
+{
+  "name": "astra-agent",
+  "version": "1.0.0",
+  "description": "Operations and Virtual Assistant agent - task automation, workflow orchestration, process optimization",
+  "main": "scripts/astra-task-dispatcher.js",
+  "scripts": {
+    "start": "node scripts/astra-task-dispatcher.js",
+    "dispatch": "node scripts/astra-task-dispatcher.js",
+    "schedule": "node scripts/astra-scheduler.js",
+    "execute": "node scripts/astra-workflow-executor.js",
+    "optimize": "node scripts/astra-process-optimizer.js",
+    "test": "node scripts/test-all.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.0.0",
+    "moment": "^2.29.0"
+  },
+  "keywords": [
+    "agent",
+    "operations",
+    "task-automation",
+    "workflow-orchestration",
+    "scheduling",
+    "optimization"
+  ],
+  "author": "James",
+  "license": "MIT"
+}
